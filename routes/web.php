@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
    return view('auth.login');
 });
+
+Route::get('e-civil.com', 'SiteController@index');
 
 Auth::routes();
 Route::get('/confirmer_compte/{id}/{token}', 'Auth\RegisterController@confirmationCompte');
@@ -453,3 +456,5 @@ Route::namespace('Auth')->middleware('auth')->name('auth.')->prefix('auth')->gro
     Route::get('liste_content_one_table/{table}', 'RestaurageDataController@listeContentOneTable')->name('liste_content_one_table');
     Route::post('restaurage', 'RestaurageDataController@restaurage')->name('restaurage');
 });
+
+
