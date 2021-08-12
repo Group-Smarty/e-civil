@@ -17,8 +17,8 @@ class CreateDemandesTable extends Migration
             $table->id();
             $table->string('numero_demande');
             $table->date('date_demande');
-            $table->date('date_retrait_demande');
             $table->string('nom_demandeur');
+            $table->date('date_retrait_demande')->nullable();
             $table->string('contact_demandeur')->nullable();
             $table->integer('naissance_id')->nullable();
             $table->integer('mariage_id')->nullable();

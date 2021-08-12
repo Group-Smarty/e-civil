@@ -7,6 +7,7 @@ use App\Models\Ecivil\Decede;
 use App\Models\Ecivil\Demande;
 use App\Models\Ecivil\Mariage;
 use App\Models\Ecivil\Naissance;
+use App\Models\Ecivil\DemandeEnLigne;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -45,6 +46,13 @@ class DemandeController extends Controller
        $titleControlleur = "Demande de copie certificat de décès";
        $btnModalAjout = "TRUE";
        return view('ecivil.decede.demande-copie',compact('btnModalAjout', 'menuPrincipal', 'titleControlleur','decedes')); 
+    }
+
+    public function demandeRecue(){
+        $menuPrincipal = "Etat civil";
+        $titleControlleur = "Liste des démandes réçues dépuis la page web";
+        $btnModalAjout = "FALSE";
+        return view('ecivil.demande-web.index',compact('btnModalAjout', 'menuPrincipal', 'titleControlleur')); 
     }
 
     public function listeDemandeActeNaissance(){
@@ -238,6 +246,16 @@ class DemandeController extends Controller
        return $listes;
     }
 
+    public function listeDemandeRecue(){
+        $demandes = DemandeEnLigne::select('demande_en_lignes.*',DB::raw('DATE_FORMAT(demande_en_lignes.date_demande, "%d-%m-%Y") as date_demandes'))
+                    ->orderBy('demande_en_lignes.id', 'DESC')
+                    ->get();
+
+       $jsonData["rows"] = $demandes->toArray();
+       $jsonData["total"] = $demandes->count();
+       return response()->json($jsonData);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -259,7 +277,7 @@ class DemandeController extends Controller
                 $demande->numero_demande = $numero_demande.$annee;
                 $demande->nom_demandeur =  $data['nom_demandeur'];
                 $demande->date_demande = now();
-                $demande->date_retrait_demande = Carbon::createFromFormat('d-m-Y', $data['date_retrait_demande']);
+                $demande->date_retrait_demande = isset($data['date_retrait_demande']) && !empty($data['date_retrait_demande']) ? Carbon::createFromFormat('d-m-Y', $data['date_retrait_demande']) : null;
                 $demande->contact_demandeur = isset($data['contact_demandeur']) && !empty($data['contact_demandeur']) ? $data['contact_demandeur']: Null;
                 $demande->nombre_copie = $data['nombre_copie'];
                 $demande->montant = isset($data['montant']) && !empty($data['montant']) ? $data['montant'] : 0;
@@ -297,7 +315,7 @@ class DemandeController extends Controller
                 $data = $request->all();
                 
                 $demande->nom_demandeur =  $data['nom_demandeur'];
-                $demande->date_retrait_demande = Carbon::createFromFormat('d-m-Y', $data['date_retrait_demande']);
+                $demande->date_retrait_demande = isset($data['date_retrait_demande']) && !empty($data['date_retrait_demande']) ? Carbon::createFromFormat('d-m-Y', $data['date_retrait_demande']) : null;
                 $demande->contact_demandeur = isset($data['contact_demandeur']) && !empty($data['contact_demandeur']) ? $data['contact_demandeur']: Null;
                 $demande->nombre_copie = $data['nombre_copie'];
                 $demande->montant = isset($data['montant']) && !empty($data['montant']) ? $data['montant'] : 0;

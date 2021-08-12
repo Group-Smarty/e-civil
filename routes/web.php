@@ -14,13 +14,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
+Route::get('/plateforme-e-civil', function () {
    return view('auth.login');
 });
 
-Route::get('e-civil.com', 'SiteController@index');
+Route::get('/', 'SiteController@index');
+Route::get('/demande-extrait-naissance', 'SiteController@demandeExtraitNaissance')->name('demande-extrait-naissance');
+Route::get('/demande-extrait-deces', 'SiteController@demandeExtraiDeces')->name('demande-extrait-deces');
+Route::get('/demande-extrait-mariage', 'SiteController@demandeExtraitMariage')->name('demande-extrait-mariage');
+Route::post('/store-demande-en-ligne', 'SiteController@storeDemandeEnLigne')->name('store-demande-en-ligne');
 
-Auth::routes();
+Auth::routes(); 
 Route::get('/confirmer_compte/{id}/{token}', 'Auth\RegisterController@confirmationCompte');
 Route::post('/update_password', 'Auth\RegisterController@updatePassword')->name('update_password');
 Route::get('/home', 'HomeController@index')->name('home');
@@ -111,7 +115,10 @@ Route::namespace('Ecivil')->middleware('auth')->name('e-civil.')->prefix('e-civi
     Route::resource('certificat-celibats', 'CertificatCelibatController');
     Route::resource('certificat-celebrations', 'CertficatCelebrationController');
     
-    
+    //Routes pour la gestion des contenus du website
+    Route::get('demandes-recues', 'DemandeController@demandeRecue')->name('demandes-recues');
+    Route::get('liste-demandes-recues', 'DemandeController@listeDemandeRecue')->name('liste-demandes-recues');
+
     //Route pour les listes dans boostrap table 
     Route::get('liste-declarations', 'DeclarationController@listeDeclaration')->name('liste-declarations');
     Route::get('liste-naissances', 'NaissanceController@listeNaissance')->name('liste-naissances');

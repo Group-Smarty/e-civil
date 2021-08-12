@@ -18,6 +18,9 @@
         <script src="{{asset('assets/js/jquery.cookies.js')}}" type="text/javascript"></script>
         <script src="{{asset('assets/js/jquery.gritter.min.js')}}" type="text/javascript"></script>
 
+        <!-- Favicon  -->
+        <link rel="icon" href="{{asset('images/telechargement.jpg') }}">
+
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -127,7 +130,10 @@
                 @include('layouts.partials.partials_menu.menu_courrier')
                 @include('layouts.partials.partials_menu.menu_taxe')
             @endif
-             @if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur')
+            @if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur')
+            @include('layouts.partials.partials_menu.menu_web')
+            @endif
+            @if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur')
                 @include('layouts.partials.partials_menu.menu_etat')
             @endif
             @if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur')
