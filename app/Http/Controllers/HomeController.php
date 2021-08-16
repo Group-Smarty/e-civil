@@ -12,6 +12,7 @@ use App\Models\Recrutement\Contrat;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use function now;
 use function view;
 
@@ -176,6 +177,12 @@ class HomeController extends Controller
         $menuPrincipal = "Accueil";
         $titleControlleur = "Tableau de bord";
         $btnModalAjout = "FALSE";
+
+        if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur' or Auth::user()->role == 'Caissier'){
         return view('home', compact('get_configuration_infos', 'moisFr','courriers', 'courrierEntr','courrierSort','annuaires', 'personneSansDemande', 'nataliteByQrt', 'nataliteByAn','nataliteByMois','listeDecesByAn','listeDecesByMois', 'nouveauxMajeurs','prochainsMariages','nouveauxMajeurs','listeDecesByLieu','listeDecesByMotif','nassancesAnnee','ageHommes','ageFemmes','nassances','naissanceFemme','naissanceHomme', 'mariagesAnnee','decesAnnee','deces','decesFemme','decesHomme', 'contrat', 'menuPrincipal', 'titleControlleur', 'btnModalAjout'));
+        }
+        if(Auth::user()->role == 'Operatrice' or Auth::user()->role == 'Courrier'){
+        return view('home-operatrice', compact('get_configuration_infos', 'moisFr','courriers', 'courrierEntr','courrierSort','annuaires', 'personneSansDemande', 'nataliteByQrt', 'nataliteByAn','nataliteByMois','listeDecesByAn','listeDecesByMois', 'nouveauxMajeurs','prochainsMariages','nouveauxMajeurs','listeDecesByLieu','listeDecesByMotif','nassancesAnnee','ageHommes','ageFemmes','nassances','naissanceFemme','naissanceHomme', 'mariagesAnnee','decesAnnee','deces','decesFemme','decesHomme', 'contrat', 'menuPrincipal', 'titleControlleur', 'btnModalAjout'));
+        }
     }
 }

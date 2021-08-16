@@ -81,6 +81,8 @@
                                         @endif
                                         <option value="Administrateur"> Administrateur</option>
                                         <option value="Caissier"> Caissier</option>
+                                        <option value="Operatrice"> Op&eacute;ratrice de saisie</option>
+                                        <option value="Courrier"> Gestionnaire des courriers</option>
                                     </select>
                                 </div>
                             </div>

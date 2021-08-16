@@ -117,26 +117,30 @@
                         ? 'active' : ''}}">
                 <a href="{{route('home')}}"><i class="fa fa-dashboard"></i> <span>Tableau de bord</span></a>
             </li>
-            @if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur')
-                @include('layouts.partials.partials_menu.menu_parametre') 
-                @include('layouts.partials.partials_menu.menu_recrutement')
-            @endif
-            @if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur')
+            @if(Auth::user()->role == 'Operatrice')
                 @include('layouts.partials.partials_menu.menu_declaration')
                 @include('layouts.partials.partials_menu.menu_demande')
                 @include('layouts.partials.partials_menu.menu_certificat')
+                <li class="{{Route::currentRouteName() === 'e-civil.demandes-recues'
+                        ? 'active' : ''}}">
+                    <a href="{{route('e-civil.demandes-recues')}}">
+                        <i class="fa fa-book"></i> D&eacute;mandes re&ccedil;ues du site
+                    </a>
+                </li>
+            @endif
+            @if(Auth::user()->role == 'Courrier')
+                @include('layouts.partials.partials_menu.menu_courrier')
             @endif
             @if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur')
+                @include('layouts.partials.partials_menu.menu_parametre') 
+                @include('layouts.partials.partials_menu.menu_recrutement')
+                @include('layouts.partials.partials_menu.menu_declaration')
+                @include('layouts.partials.partials_menu.menu_demande')
+                @include('layouts.partials.partials_menu.menu_certificat')
                 @include('layouts.partials.partials_menu.menu_courrier')
                 @include('layouts.partials.partials_menu.menu_taxe')
-            @endif
-            @if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur')
-            @include('layouts.partials.partials_menu.menu_web')
-            @endif
-            @if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur')
+                @include('layouts.partials.partials_menu.menu_web')
                 @include('layouts.partials.partials_menu.menu_etat')
-            @endif
-            @if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur')
             <li class="{{ request()->is('/auth')
                                || Route::currentRouteName() === 'auth.users.index'
                                || Route::currentRouteName() === 'auth.profil-informations'
@@ -148,9 +152,6 @@
             @if(Auth::user()->id == 1)
             <li class="{{Route::currentRouteName() === 'auth.restaurages.index' || request()->is('auth/one_table/*')? 'active' : ''}}">
              <a href="{{route('auth.restaurages.index')}}"><i class="fa fa-database"></i> <span>Restaurer donn&eacute;es</span></a>
-             </li>
-             <li class="{{Route::currentRouteName() === 'configuration' ? 'active' : ''}}">
-             <a href="{{route('configuration')}}"><i class="fa fa-cog"></i> <span>Configuration</span></a>
              </li>
             @endif
             @if(Auth::user()->role == 'Concepteur')

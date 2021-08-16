@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-@if(Auth::user()->role == 'Administrateur' or Auth::user()->role == 'Concepteur')
+@if(Auth::user()->role == 'Administrateur' or Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Operatrice')
 <script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap-table.min.js')}}"></script>
 <script src="{{asset('assets/plugins/bootstrap-table/locale/bootstrap-table-fr-FR.js')}}"></script>
