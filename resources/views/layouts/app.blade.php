@@ -128,6 +128,32 @@
                     </a>
                 </li>
             @endif
+            @if(Auth::user()->role == 'Taxe')
+                <li class="{{ Route::currentRouteName() === 'taxe.contribuables.index'
+                        ? 'active' : ''}}">
+                    <a href="{{route('taxe.contribuables.index')}}">
+                        &nbsp;&nbsp;&nbsp;<i class="fa fa-users"></i> Contribuables
+                    </a>
+                </li>
+                <li class="{{ Route::currentRouteName() === 'taxe.declaration-activites.index' || request()->is('taxe/details-contribuables/*')
+                        ? 'active' : ''}}">
+                  <a href="{{route('taxe.declaration-activites.index')}}">
+                      &nbsp;&nbsp;&nbsp;<i class="fa fa-bookmark"></i> D&eacute;claration d'activit&eacute;s
+                  </a>
+                </li>
+                <li class="{{ Route::currentRouteName() === 'taxe.payement-taxes.index'
+                        || Route::currentRouteName() === 'taxe.point-caisse' ? 'active' : ''}}">
+                    <a href="{{route('taxe.payement-taxes.index')}}">
+                      &nbsp;&nbsp;&nbsp;<i class="fa fa-money"></i> Payement des Taxes
+                    </a>
+                </li>
+                <li class="{{ Route::currentRouteName() === 'taxe.billetages.index' ? 'active' : ''
+                    }}">
+                    <a href="{{route('taxe.billetages.index')}}">
+                          &nbsp;&nbsp;&nbsp;<i class="fa fa-list"></i> Historique des caisses
+                    </a>
+                </li>
+            @endif
             @if(Auth::user()->role == 'Courrier')
                 @include('layouts.partials.partials_menu.menu_courrier')
             @endif

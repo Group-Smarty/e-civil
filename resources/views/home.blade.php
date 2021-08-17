@@ -573,7 +573,7 @@
 </div>
 
         </div>
-        </div>
+        </div>        
 <div class="box collapsed-box">
         <div class="box-header with-border">
           <h3 class="box-title">Courriers</h3>

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Courrier\Annuaire;
+use App\Models\Taxes\Contribuable;
+use App\Models\Taxes\DeclarationActivite;
+use App\Models\Taxes\PayementTaxe;
 use App\Models\Courrier\Courrier;
 use App\Models\Ecivil\Decede;
 use App\Models\Ecivil\Demande;
@@ -49,6 +52,8 @@ class HomeController extends Controller
         $decesFemme = Decede::where('sexe','=','Feminin')->get();
         $decesHomme = Decede::where('sexe','=','Masculin')->get();
         $contrat = Contrat::where('deleted_at',null)->get();
+        $contribuables = Contribuable::where('deleted_at',null)->get();
+        $activites = DeclarationActivite::where('deleted_at',null)->get();
         
         $get_configuration_infos = \App\Helpers\ConfigurationHelper\Configuration::get_configuration_infos(1);  
         
@@ -173,16 +178,29 @@ class HomeController extends Controller
                                 ->whereNotIn('naissances.id', $data)
                                 ->select('naissances.*') 
                                 ->take(5)->get(); 
+
+        $meilleurPayeursTaxes = PayementTaxe::join('declaration_activites','declaration_activites.id','=','payement_taxes.declaration_activite_id')
+            ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+            ->select('declaration_activites.nom_structure','declaration_activites.nom_activite','contribuables.nom_complet',DB::raw('SUM(payement_taxes.montant) as montantTotal'))
+            ->groupBy('declaration_activites.id')
+            ->orderBy('montantTotal','desc')->get();
+
+        $meilleurContribuables = PayementTaxe::join('declaration_activites','declaration_activites.id','=','payement_taxes.declaration_activite_id')
+            ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+            ->select('contribuables.nom_complet',DB::raw('SUM(payement_taxes.montant) as montantTotal'))
+            ->groupBy('contribuables.id')
+            ->orderBy('montantTotal','desc')->get();
+
         $moisFr = ['01'=>'Janvier','02'=>'Février','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Août','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre'];
         $menuPrincipal = "Accueil";
         $titleControlleur = "Tableau de bord";
         $btnModalAjout = "FALSE";
 
         if(Auth::user()->role == 'Concepteur' or Auth::user()->role == 'Administrateur' or Auth::user()->role == 'Caissier'){
-        return view('home', compact('get_configuration_infos', 'moisFr','courriers', 'courrierEntr','courrierSort','annuaires', 'personneSansDemande', 'nataliteByQrt', 'nataliteByAn','nataliteByMois','listeDecesByAn','listeDecesByMois', 'nouveauxMajeurs','prochainsMariages','nouveauxMajeurs','listeDecesByLieu','listeDecesByMotif','nassancesAnnee','ageHommes','ageFemmes','nassances','naissanceFemme','naissanceHomme', 'mariagesAnnee','decesAnnee','deces','decesFemme','decesHomme', 'contrat', 'menuPrincipal', 'titleControlleur', 'btnModalAjout'));
+        return view('home', compact('get_configuration_infos', 'moisFr','courriers', 'courrierEntr','courrierSort','annuaires', 'personneSansDemande', 'nataliteByQrt', 'nataliteByAn','nataliteByMois','listeDecesByAn','listeDecesByMois', 'nouveauxMajeurs','prochainsMariages','nouveauxMajeurs','listeDecesByLieu','listeDecesByMotif','nassancesAnnee','ageHommes','ageFemmes','nassances','naissanceFemme','naissanceHomme', 'mariagesAnnee','decesAnnee','deces','decesFemme','decesHomme', 'contrat','contribuables','activites','meilleurPayeursTaxes','meilleurContribuables', 'menuPrincipal', 'titleControlleur', 'btnModalAjout'));
         }
-        if(Auth::user()->role == 'Operatrice' or Auth::user()->role == 'Courrier'){
-        return view('home-operatrice', compact('get_configuration_infos', 'moisFr','courriers', 'courrierEntr','courrierSort','annuaires', 'personneSansDemande', 'nataliteByQrt', 'nataliteByAn','nataliteByMois','listeDecesByAn','listeDecesByMois', 'nouveauxMajeurs','prochainsMariages','nouveauxMajeurs','listeDecesByLieu','listeDecesByMotif','nassancesAnnee','ageHommes','ageFemmes','nassances','naissanceFemme','naissanceHomme', 'mariagesAnnee','decesAnnee','deces','decesFemme','decesHomme', 'contrat', 'menuPrincipal', 'titleControlleur', 'btnModalAjout'));
+        if(Auth::user()->role == 'Operatrice' or Auth::user()->role == 'Courrier' or Auth::user()->role == 'Taxe'){
+        return view('home-operatrice', compact('get_configuration_infos', 'moisFr','courriers', 'courrierEntr','courrierSort','annuaires', 'personneSansDemande', 'nataliteByQrt', 'nataliteByAn','nataliteByMois','listeDecesByAn','listeDecesByMois', 'nouveauxMajeurs','prochainsMariages','nouveauxMajeurs','listeDecesByLieu','listeDecesByMotif','nassancesAnnee','ageHommes','ageFemmes','nassances','naissanceFemme','naissanceHomme', 'mariagesAnnee','decesAnnee','deces','decesFemme','decesHomme', 'contrat','contribuables','activites','meilleurPayeursTaxes','meilleurContribuables', 'menuPrincipal', 'titleControlleur', 'btnModalAjout'));
         }
     }
 }

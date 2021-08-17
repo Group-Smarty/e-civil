@@ -15,9 +15,9 @@ class PayementTaxe extends Model
      * @var array
      */
     
-    protected $fillable = ['payement_effectuer_par', 'numero_ticket', 'declaration_activite_id', 'caisse_ouverte_id', 'updated_by', 'deleted_by', 'created_by'];
+    protected $fillable = ['payement_effectuer_par','montant', 'numero_ticket', 'declaration_activite_id', 'caisse_ouverte_id', 'updated_by', 'deleted_by', 'created_by'];
     
-    protected $dates = ['deleted_at', 'date_payement'];
+    protected $dates = ['deleted_at', 'date_payement','date_prochain_payement'];
     
     public function declaration_activite()
     {
