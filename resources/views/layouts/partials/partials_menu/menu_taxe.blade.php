@@ -61,4 +61,10 @@
                   &nbsp;&nbsp;&nbsp;<i class="fa fa-list"></i> Historique des caisses
               </a>
             </li>
+             <li class="{{ Route::currentRouteName() === 'taxe.historique-taxes' ? 'active' : ''
+                    }}">
+                    <a href="{{route('taxe.historique-taxes')}}">
+                          &nbsp;&nbsp;&nbsp;<i class="fa fa-money"></i> Taxes pay&eacute;es
+                    </a>
+                </li>
     </ul>

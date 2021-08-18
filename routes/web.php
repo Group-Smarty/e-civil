@@ -400,6 +400,8 @@ Route::namespace('Taxe')->middleware('auth')->name('taxe.')->prefix('taxe')->gro
     
     //Route particulière 
     Route::get('details-contribuables/{id}', 'ContribuableController@vueDetail');
+    Route::get('historique-taxes', 'PayementTaxeController@historiqueTaxe')->name('historique-taxes');
+    Route::get('liste-taxes-payes', 'PayementTaxeController@listeTaxesPayes');
     
     //Liste routes parametrées 
     
@@ -426,8 +428,8 @@ Route::namespace('Taxe')->middleware('auth')->name('taxe.')->prefix('taxe')->gro
     Route::get('get-contribuable-by-activite/{activite}', 'ContribuableController@getContribuableByActivite');
     
     //**Payement taxe 
-    Route::get('liste-payements-taxes-by-facture/{numero}/{caisse}', 'PayementTaxeController@listPayementTaxeByFacture');
-    Route::get('liste-payements-taxes-by-contribuable/{contribuable}/{caisse}', 'PayementTaxeController@listePayementTaxeByContribuable');
+    Route::get('liste-payements-taxes-by-facture/{numero}/{caisse?}', 'PayementTaxeController@listPayementTaxeByFacture');
+    Route::get('liste-payements-taxes-by-contribuable/{contribuable}/{caisse?}', 'PayementTaxeController@listePayementTaxeByContribuable');
     Route::get('liste-payements-taxes-by-periode/{debut}/{fin}', 'PayementTaxeController@listePayementTaxeByPeriode');
     Route::get('liste-payements-taxes-by-contribuable-periode/{contribuable}/{debut}/{fin}', 'PayementTaxeController@listePayementTaxeByContribuablePeriode');
     Route::get('facture-pdf/{id}', 'PayementTaxeController@facturePdf');

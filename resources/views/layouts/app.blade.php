@@ -153,6 +153,12 @@
                           &nbsp;&nbsp;&nbsp;<i class="fa fa-list"></i> Historique des caisses
                     </a>
                 </li>
+                <li class="{{ Route::currentRouteName() === 'taxe.historique-taxes' ? 'active' : ''
+                    }}">
+                    <a href="{{route('taxe.historique-taxes')}}">
+                          &nbsp;&nbsp;&nbsp;<i class="fa fa-money"></i> Taxes pay&eacute;es
+                    </a>
+                </li>
             @endif
             @if(Auth::user()->role == 'Courrier')
                 @include('layouts.partials.partials_menu.menu_courrier')
@@ -217,7 +223,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 1.0.0
     </div>
-    <strong>Copyright &copy; 2020 <a href="http://groupsmarty.com/">GroupSmarty</a>.</strong> All rights
+    <strong>Copyright &copy; 2020 <a href="http://groupsmarty.com/" target="_blank">GroupSmarty</a>.</strong> All rights
     reserved.
   </footer>
   <script src="{{asset('assets/plugins/select2/select2.full.min.js')}}"></script>

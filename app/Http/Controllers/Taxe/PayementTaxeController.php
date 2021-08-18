@@ -81,6 +81,16 @@ class PayementTaxeController extends Controller
        return view('taxe.payement-taxe.caisse',compact('contribuables','caisse_ouverte','caisse','btnModalAjout', 'menuPrincipal', 'titleControlleur')); 
     }
 
+    public function historiqueTaxe(){
+        $contribuables = DB::table('contribuables')->Where('deleted_at', NULL)->orderBy('nom_complet', 'asc')->get();
+        $activites = DB::table('declaration_activites')->Where('deleted_at', NULL)->orderBy('nom_structure', 'asc')->get();
+
+        $menuPrincipal = "Taxe";
+        $titleControlleur = "Historique des payements de taxe";
+        $btnModalAjout = "FALSE";
+        return view('taxe.payement-taxe.index',compact('contribuables','activites','btnModalAjout', 'menuPrincipal', 'titleControlleur')); 
+    }
+
     
     public function listPayementTaxe($caisse)
     {
@@ -110,7 +120,7 @@ class PayementTaxeController extends Controller
        return response()->json($jsonData);
     }
     
-    public function listPayementTaxeByFacture($numero,$caisse){
+    public function listPayementTaxeByFacture($numero,$caisse=null){
         
         if(Auth::user()->role=='Caissier'){
                 $payements = PayementTaxe::with('declaration_activite')
@@ -122,15 +132,29 @@ class PayementTaxeController extends Controller
                                     ->orderBy('payement_taxes.date_payement', 'DESC')
                                     ->get();
         }else{
-                $payements = PayementTaxe::with('declaration_activite')
-                                    ->join('caisse_ouvertes','caisse_ouvertes.id','=','payement_taxes.caisse_ouverte_id')
+
+                if($caisse==null){
+                    $payements = PayementTaxe::with('declaration_activite')
                                     ->join('declaration_activites','declaration_activites.id','=','payement_taxes.declaration_activite_id')
                                     ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
                                     ->select('payement_taxes.*','contribuables.nom_complet as nom_complet_contribuable',DB::raw('DATE_FORMAT(payement_taxes.date_prochain_payement, "%d-%m-%Y") as date_prochain_payements'),DB::raw('DATE_FORMAT(payement_taxes.date_payement, "%d-%m-%Y") as date_payements'))
-                                    ->Where([['payement_taxes.deleted_at', NULL],['caisse_ouvertes.caisse_id',$caisse],['payement_taxes.numero_ticket', 'like', '%' . $numero . '%']])
+                                    ->Where([['payement_taxes.deleted_at', NULL],['payement_taxes.numero_ticket', 'like', '%' . $numero . '%']])
                                     ->orderBy('payement_taxes.date_payement', 'DESC')
                                     ->get();
+                }else{
+                     $payements = PayementTaxe::with('declaration_activite')
+                                        ->join('caisse_ouvertes','caisse_ouvertes.id','=','payement_taxes.caisse_ouverte_id')
+                                        ->join('declaration_activites','declaration_activites.id','=','payement_taxes.declaration_activite_id')
+                                        ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+                                        ->select('payement_taxes.*','contribuables.nom_complet as nom_complet_contribuable',DB::raw('DATE_FORMAT(payement_taxes.date_prochain_payement, "%d-%m-%Y") as date_prochain_payements'),DB::raw('DATE_FORMAT(payement_taxes.date_payement, "%d-%m-%Y") as date_payements'))
+                                        ->Where([['payement_taxes.deleted_at', NULL],['caisse_ouvertes.caisse_id',$caisse],['payement_taxes.numero_ticket', 'like', '%' . $numero . '%']])
+                                        ->orderBy('payement_taxes.date_payement', 'DESC')
+                                        ->get();
+                }
+               
         }
+           
+        
        $jsonData["rows"] = $payements->toArray();
        $jsonData["total"] = $payements->count();
        return response()->json($jsonData);
@@ -161,9 +185,35 @@ class PayementTaxeController extends Controller
        return response()->json($jsonData);
     }
 
+    public function listeTaxesPayes(){
+         $payements = PayementTaxe::with('declaration_activite')
+                                    ->join('declaration_activites','declaration_activites.id','=','payement_taxes.declaration_activite_id')
+                                    ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+                                    ->select('payement_taxes.*','contribuables.nom_complet as nom_complet_contribuable',DB::raw('DATE_FORMAT(payement_taxes.date_prochain_payement, "%d-%m-%Y") as date_prochain_payements'),DB::raw('DATE_FORMAT(payement_taxes.date_payement, "%d-%m-%Y") as date_payements'))
+                                    ->Where('payement_taxes.deleted_at', NULL)
+                                    ->orderBy('payement_taxes.date_payement', 'DESC')
+                                    ->get();
+        $jsonData["rows"] = $payements->toArray();
+        $jsonData["total"] = $payements->count();
+        return response()->json($jsonData);
+    }
+
     public function listePayementTaxeByPeriode($date1, $date2){
         $debut = Carbon::createFromFormat('d-m-Y', $date1);
         $fin = Carbon::createFromFormat('d-m-Y', $date2);
+
+        $payements = PayementTaxe::with('declaration_activite')
+                                    ->join('declaration_activites','declaration_activites.id','=','payement_taxes.declaration_activite_id')
+                                    ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+                                    ->select('payement_taxes.*','contribuables.nom_complet as nom_complet_contribuable',DB::raw('DATE_FORMAT(payement_taxes.date_prochain_payement, "%d-%m-%Y") as date_prochain_payements'),DB::raw('DATE_FORMAT(payement_taxes.date_payement, "%d-%m-%Y") as date_payements'))
+                                    ->Where('payement_taxes.deleted_at', NULL)
+                                    ->whereDate('payement_taxes.date_payement','>=', $debut)
+                                    ->whereDate('payement_taxes.date_payement','<=', $fin)
+                                    ->orderBy('payement_taxes.date_payement', 'DESC')
+                                    ->get();
+        $jsonData["rows"] = $payements->toArray();
+        $jsonData["total"] = $payements->count();
+        return response()->json($jsonData);
     }
     
     public function listePayementTaxeByContribuablePeriode($contribuable,$date1, $date2){

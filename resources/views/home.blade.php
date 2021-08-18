@@ -238,6 +238,174 @@
 </div>
 
 <div class="box collapsed-box">
+    <div class="box-header with-border">
+        <h3 class="box-title">Taxes</h3>
+        <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+              <i class="fa fa-plus"></i></button>
+        </div>
+    </div>
+        
+    <div class="box-body" style="display: none;">
+
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <a style="text-decoration: none; color: #000000;" href="{{url('taxe/contribuables')}}">
+                            <span class="info-box-icon bg-aqua">
+                                <i class="fa fa-users"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Contribuables</span>
+                                <span class="info-box-number">{{$contribuables->count()}}</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <a style="text-decoration: none; color: #000000;" href="{{url('taxe/declaration-activites')}}">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red">
+                            <i class="fa fa-bank"></i>
+                        </span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Activites declarees</span>
+                            <span class="info-box-number">{{$activites->count()}}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                   </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Les meilleurs entreprises payeurs de taxe</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table no-margin">
+                                    <thead>
+                                        <tr>
+                                            <th>Entreprises</th>
+                                            <th>Activit&eacute;</th>
+                                            <th>Porpri&eacute;taire</th>
+                                            <th>Montant total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody> 
+                                        @foreach($meilleurPayeursTaxes->take(10) as $payement)
+                                        <tr>
+                                            <td>{{$payement->nom_structure}}</td>
+                                            <td>{{$payement->nom_activite}}</td>
+                                            <td>{{$payement->nom_complet}}</td>
+                                            <td>{{number_format($payement->montantTotal, 0, ',', ' ')}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer clearfix">
+                                <a href="#" class="btn btn-xs btn-success pull-right">Voir plus</a>
+                        </div>
+                        <!-- /.box-footer -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Les meilleurs contribuables payeurs de taxe</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table class="table no-margin">
+                                        <thead>
+                                            <tr>
+                                                <th>Contribuable</th>
+                                                <th>Montant total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody> 
+                                            @foreach($meilleurContribuables->take(10) as $payement)
+                                            <tr>
+                                                <td>{{$payement->nom_complet}}</td>
+                                                <td>{{number_format($payement->montantTotal, 0, ',', ' ')}}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer clearfix">
+                                    <a href="#" class="btn btn-xs btn-success pull-right">Voir plus</a>
+                            </div>
+                            <!-- /.box-footer -->
+                        </div>
+                </div>
+                <div class="col-md-6">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Les contribuables qui payent moins la taxe</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table class="table no-margin">
+                                        <thead>
+                                            <tr>
+                                                <th>Contribuable</th>
+                                                <th>Montant total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody> 
+                                            @foreach($meilleurContribuables->take(10)->reverse() as $payement)
+                                            <tr>
+                                                <td>{{$payement->nom_complet}}</td>
+                                                <td>{{number_format($payement->montantTotal, 0, ',', ' ')}}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer clearfix">
+                                    <a href="#" class="btn btn-xs btn-success pull-right">Voir plus</a>
+                            </div>
+                            <!-- /.box-footer -->
+                        </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<div class="box collapsed-box">
         <div class="box-header with-border">
           <h3 class="box-title">D'autres informations de naissance</h3>
           <div class="box-tools pull-right">
@@ -571,9 +739,8 @@
         </div>
     </div> 
 </div>
-
-        </div>
-        </div>        
+</div>
+</div>        
 <div class="box collapsed-box">
         <div class="box-header with-border">
           <h3 class="box-title">Courriers</h3>
@@ -687,9 +854,9 @@
                 <!-- /.box-footer -->
             </div>
         </div>
-    </div>
-        </div>
-      </div>
+</div>
+</div>
+</div>
 @endif
 @if(Auth::user()->role == 'Caissier')
 <div class="row">
