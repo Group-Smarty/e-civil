@@ -437,6 +437,27 @@ Route::namespace('Taxe')->middleware('auth')->name('taxe.')->prefix('taxe')->gro
     //**Billetages
     Route::get('liste-billetages-by-caisse/{caisse}', 'BilletageController@listeBilletageByCaisse');
     Route::get('liste-billetages-by-caissier/{caissier}', 'BilletageController@listeBilletageByCaissier');
+
+
+    //Etats//
+
+    //* Contribuables *//
+    Route::get('liste-contribuables-pdf', 'ContribuableController@listeContribuablePdf');
+    Route::get('liste-contribuables-by-nation-pdf/{nation}', 'ContribuableController@listeContribuableByNationPdf');
+    Route::get('liste-contribuables-by-sexe-pdf/{sexe}', 'ContribuableController@listeContribuableBySexePdf');
+
+    //* Activité déclarées *//
+    Route::get('liste-activites-pdf', 'DeclarationActiviteController@listeActivitePdf');
+    Route::get('liste-activites-by-date-pdf/{date}', 'DeclarationActiviteController@listeActiviteByDatePdf');
+    Route::get('liste-activites-by-contribuables-pdf/{contribuable}', 'DeclarationActiviteController@listeActiviteByContribuablePdf');
+    Route::get('liste-activites-by-localites-pdf/{localite}', 'DeclarationActiviteController@listeActiviteByLocalitePdf');
+    Route::get('liste-activites-by-contribuable-localite-pdf/{contribuable}/{localite}', 'DeclarationActiviteController@listeActiviteByContribuableLocalitePdf');
+
+    //* Historique des caisses *//
+    //Route::get('liste-caisses-pdf', 'DeclarationActiviteController@listeCaissePdf');
+
+    //* Taxes *//
+     //Route::get('liste-caisses-pdf', 'DeclarationActiviteController@listeCaissePdf');
 });
 
 

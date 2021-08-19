@@ -21,7 +21,7 @@
        <input type="text" class="form-control" id="searchByDate" placeholder="Rech. par date déclar.">
     </div>
 </div>
-<div class="col-md-4">
+<div class="col-md-3">
     <div class="form-group">
         <select id="searchByContribuable"  class="form-control">
             <option value="0">--- Tous les contribuables ---</option>
@@ -40,6 +40,9 @@
             @endforeach
         </select>
     </div>
+</div>
+<div class="col-md-1">
+    <a class="btn btn-success pull-right" onclick="imprimePdf()">Imprimer</a><br/>
 </div>
 <table id="table" class="table table-warning table-striped box box-warning"
                data-pagination="true"
@@ -398,6 +401,7 @@
 
         $("#searchByDate").change(function (e) {
             var date = $("#searchByDate").val();
+
             if(date == ''){
                 $table.bootstrapTable('refreshOptions', {url: "{{url('taxe', ['action' => 'liste-declaration-activites'])}}"});
             }
@@ -506,6 +510,28 @@
     
     function mailFormatter(mail){
         return mail ? '<a href="mailto:' + mail + '">' + mail + '</a>' : "";
+    }
+
+     function imprimePdf(){
+        var date = $("#searchByDate").val();
+        var contribuable = $("#searchByContribuable").val();
+        var localite = $("#searchByLocalite").val();
+
+        if(date == "" && contribuable == 0 && localite == 0){
+            window.open("../taxe/liste-activites-pdf/" ,'_blank');
+        }
+        if(date != "" && contribuable == 0 && localite == 0){
+            window.open("../taxe/liste-activites-by-date-pdf/" + date,'_blank');  
+        }
+        if(date == "" && contribuable != 0 && localite == 0){
+            window.open("../taxe/liste-activites-by-contribuables-pdf/" + contribuable,'_blank');  
+        }
+        if(date == "" && contribuable == 0 && localite != 0){
+            window.open("../taxe/liste-activites-by-localites-pdf/" + localite,'_blank');  
+        }
+        if(date == "" && contribuable != 0 && localite != 0){
+            window.open("../taxe/liste-activites-by-contribuable-localite-pdf/" + contribuable + "/" + localite,'_blank');  
+        }
     }
     
     function editerDeclarationActiviteAction(methode, url, $formObject, formData, $ajoutLoader, $table, ajout = true) {

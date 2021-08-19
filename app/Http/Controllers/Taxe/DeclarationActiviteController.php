@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Taxe;
 
 use App\Http\Controllers\Controller;
 use App\Models\Taxes\Contribuable;
+use App\Models\Taxes\Localite;
 use App\Models\Taxes\DeclarationActivite;
 use Exception;
 use Illuminate\Http\Request;
@@ -260,5 +261,208 @@ class DeclarationActiviteController extends Controller
                 }
             }
         return response()->json(["code" => 0, "msg" => "Echec de suppression", "data" => NULL]);
+    }
+
+
+    //Fonction pour recuperer les infos de Helpers
+    public function infosConfig(){
+        $get_configuration_infos = \App\Helpers\ConfigurationHelper\Configuration::get_configuration_infos(1);
+        return $get_configuration_infos;
+    }
+    public function premierLetre(){
+        $n=substr($this->infosConfig()->commune,0,1); 
+        if($n=='A' || $n=='E' || $n=='I' || $n=='O' || $n=='U' || $n=='Y'){ 
+            $d = "d'";
+            
+        }else{
+            $d = "de ";
+        }
+        return $d;
+    }
+
+    //Liste des activités
+    public function listeActivitePdf(){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeActivites());
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->stream('liste_activites.pdf');
+    }
+    public function listeActivites(){
+        $outPut = $this->headerFiche();
+        $outPut.= $this->footerFiche();
+        return $outPut;
+    }
+
+
+    //Liste des activités par date
+    public function listeActiviteByDatePdf($date){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeActiviteByDates($date));
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->stream('liste_activites_declarees_le_'.$date.'.pdf');
+    }
+    public function listeActiviteByDates($date){
+        $outPut = $this->headerFiche();
+        $outPut.= $this->footerFiche();
+        return $outPut;
+    }
+
+    //Liste des activités par contribuable
+    public function listeActiviteByContribuablePdf($contribuable){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeActiviteByContribuables($contribuable));
+        $pdf->setPaper('A4', 'landscape');
+        $infosContribuable = Contribuable::find($contribuable);
+        return $pdf->stream('liste_activites_declarees_de_'.$infosContribuable->nom_complet.'.pdf');
+    }
+    public function listeActiviteByContribuables($contribuable){
+        $outPut = $this->headerFiche();
+        $outPut.= $this->footerFiche();
+        return $outPut;
+    }
+
+     //Liste des activités par localités
+    public function listeActiviteByLocalitePdf($localite){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeActiviteByLocalites($localite));
+        $pdf->setPaper('A4', 'landscape');
+        $infosLocalite = Localite::find($localite);
+        return $pdf->stream('liste_activites_de_la_localite_'.$infosLocalite->libelle_localite.'.pdf');
+    }
+    public function listeActiviteByLocalites($localite){
+        $outPut = $this->headerFiche();
+        $outPut.= $this->footerFiche();
+        return $outPut;
+    }
+
+      //Liste des activités par localités et contribuables
+    public function listeActiviteByContribuableLocalitePdf($contribuable,$localite){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeActiviteByContribuableLocalites($contribuable,$localite));
+        $pdf->setPaper('A4', 'landscape');
+        $infosLocalite = Localite::find($localite);
+        $infosContribuable = Contribuable::find($contribuable);
+        return $pdf->stream('liste_activites_de_la_localite_'.$infosLocalite->libelle_localite.'_du_contribuable_'.$infosContribuable->nom_complet.'.pdf');
+    }
+    public function listeActiviteByContribuableLocalites($contribuable,$localite){
+        $outPut = $this->headerFiche();
+        $outPut.= $this->footerFiche();
+        return $outPut;
+    }
+
+    //Header and footer des pdf pour les listes dans tableau
+    public function headerFiche(){
+        $search  = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
+        $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
+        $commune = str_replace($search, $replace, $this->infosConfig()->commune);
+     
+        $header = '<html>
+                    <head>
+                        <style>
+                          @page{
+                                margin: 70px 25px;
+                                }
+                            header{
+                                    position: absolute;
+                                    top: -60px;
+                                    left: 0px;
+                                    right: 0px;
+                                    height:40px;
+                                }
+                                .fixed-header-left{
+                                            width: 35%;
+                                            height:30%;
+                                            position: absolute; 
+                                            top: 0;
+                                            padding: 10px 0;
+                                            text-align:center;
+                                        }
+                                .fixed-header-right{
+                                            width: 35%;
+                                            height:7%;
+                                            float: right;
+                                            position: absolute;
+                                            top: 0;
+                                            padding: 10px 0;
+                                            text-align:center;
+                                        }
+                            .container-table{        
+                                            margin:125px 0;
+                                            width: 100%;
+                                        }
+                            .fixed-footer{.
+                                width : 100%;
+                                position: fixed; 
+                                bottom: -28; 
+                                left: 0px; 
+                                right: 0px;
+                                height: 30px; 
+                                text-align:center;
+                            }
+                            .fixed-footer-right{
+                                position: absolute; 
+                                bottom: -125; 
+                                height: 0; 
+                                font-size:13px;
+                                float : right;
+                            }
+                            .page-number:before {
+                                            
+                            }
+                        </style>
+                    </head>
+                    .<script type="text/php">
+                    if (isset($pdf)){
+                        $text = "Page {PAGE_NUM} / {PAGE_COUNT}";
+                        $size = 10;
+                        $font = $fontMetrics->getFont("Verdana");
+                        $width = $fontMetrics->get_text_width($text, $font, $size) / 2;
+                        $x = ($pdf->get_width() - $width) / 2;
+                        $y = $pdf->get_height() - 35;
+                        $pdf->page_text($x, $y, $text, $font, $size);
+                    }
+                </script>
+        <body>
+        <header>
+            <div class="fixed-header-left">
+             <b>COMMUNE '.strtoupper($this->premierLetre().''.$commune).'</b><br/>
+                   <img src='.$this->infosConfig()->logo.' width="100" height="100"><br/> 
+                    <b> Mairie '.$this->premierLetre().''.$this->infosConfig()->commune.'</b><br/>';
+                    if($this->infosConfig()->adresse_marie != null) {
+                        $header .= 'Adresse: '.$this->infosConfig()->adresse_marie.'<br/>';
+                    }
+                    if ($this->infosConfig()->telephone_mairie != null) {
+                        $header .='Tel : '.$this->infosConfig()->telephone_mairie.'<br/>';
+                    }
+                    if ($this->infosConfig()->fax_mairie != null) {
+                        $header .='Fax : '.$this->infosConfig()->fax_mairie.'<br/>';
+                    }
+                    if ($this->infosConfig()->site_web_mairie != null) {
+                        $header.=''.$this->infosConfig()->site_web_mairie.'<br/> ';
+                    }
+                $header.='</div>
+                    <div class="fixed-header-right">
+                       <b> REPUBLIQUE DE COTE D\'IVOIRE<br/> 
+                        Union-Discipline-Travail<hr width="50"/></b>
+                    </div>
+        </header>';   
+        return $header;
+    }
+    
+    public function footerFiche(){
+        $footer ="<div class='fixed-footer'>
+                        <div class='page-number'></div>
+                    </div>
+                    <div class='fixed-footer-right'>
+                     <i> Editer le ".date('d-m-Y')."</i>
+                    </div>
+            </body>
+        </html>";
+        return $footer;
     }
 }

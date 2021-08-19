@@ -11,20 +11,20 @@
 <script src="{{asset('assets/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
 <link href="{{asset('assets/css/bootstrap-table.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet">
-<div class="col-md-3">
+<div class="col-md-2">
     <div class="form-group">
-       <input type="text" class="form-control" id="searchByName" placeholder="Rechercher par nom">
+       <input type="text" class="form-control" id="searchByName" placeholder="Rech. par nom">
     </div>
 </div>
-<div class="col-md-3">
+<div class="col-md-2">
     <div class="form-group">
-       <input type="text" class="form-control" id="searchByNumero" placeholder="Rechercher par N° idententifiant">
+       <input type="text" class="form-control" id="searchByNumero" placeholder="Rech. par N° ident">
     </div>
 </div>
 <div class="col-md-3">
     <div class="form-group">
         <select id="searchByNation"  class="form-control">
-            <option value="0">--- Toutes les nationalit&eacute; ---</option>
+            <option value="tous">--- Toutes les nationalit&eacute; ---</option>
             @foreach($nations as $nation)
             <option value="{{$nation->id}}"> {{$nation->libelle_nation}}</option>
             @endforeach
@@ -39,6 +39,9 @@
             <option value="Feminin">Feminin</option>
         </select>
     </div>
+</div>
+<div class="col-md-2">
+    <a class="btn btn-success pull-right" onclick="imprimePdf()">Imprimer</a><br/>
 </div>
 <table id="table" class="table table-warning table-striped box box-warning"
                data-pagination="true"
@@ -342,7 +345,7 @@
         $("#searchByName").keyup(function (e) {
             
             $("#searchByNumero").val("");
-            $("#searchByNation").val(0);
+            $("#searchByNation").val("tous");
             $("#searchBySexe").val("tous");
             
             var name = $("#searchByName").val();
@@ -358,7 +361,7 @@
         $("#searchByNumero").keyup(function (e) {
             
             $("#searchByName").val("");
-            $("#searchByNation").val(0);
+            $("#searchByNation").val("tous");
             $("#searchBySexe").val("tous");
             
             var numero = $("#searchByNumero").val();
@@ -379,7 +382,7 @@
             
             var nation = $("#searchByNation").val();
             
-            if(nation == 0){
+            if(nation == "tous"){
                 $table.bootstrapTable('refreshOptions', {url: "{{url('taxe', ['action' => 'liste-contribuables'])}}"});
             }
             else{
@@ -392,7 +395,7 @@
             var sexe = $("#searchBySexe").val();
             $("#searchByName").val("");
             $("#searchByNumero").val("");
-            $("#searchByNation").val(0);
+            $("#searchByNation").val("tous");
             
             if(sexe == "tous"){
                 $table.bootstrapTable('refreshOptions', {url: "{{url('taxe', ['action' => 'liste-contribuables'])}}"});
@@ -480,6 +483,21 @@
     
     function mailFormatter(mail){
         return mail ? '<a href="mailto:' + mail + '">' + mail + '</a>' : "";
+    }
+
+    function imprimePdf(){
+        var nation = $("#searchByNation").val();
+        var sexe = $("#searchBySexe").val();
+
+        if(nation == "tous" && sexe=="tous"){
+            window.open("../taxe/liste-contribuables-pdf/" ,'_blank');
+        }
+        if(nation != "tous" && sexe=="tous"){
+            window.open("../taxe/liste-contribuables-by-nation-pdf/" + nation,'_blank');  
+        }
+        if(nation == "tous" && sexe!="tous"){
+            window.open("../taxe/liste-contribuables-by-sexe-pdf/" + sexe,'_blank');  
+        }
     }
     
     function editerContribuableAction(methode, url, $formObject, formData, $ajoutLoader, $table, ajout = true) {
