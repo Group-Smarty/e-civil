@@ -11,7 +11,7 @@
 <div class="col-md-4">
     <div class="form-group">
         <select id="searchByCaisse"  class="form-control">
-            <option value="0">--- Toutes les caisses ---</option>
+            <option value="tous">--- Toutes les caisses ---</option>
             @foreach($caisses as $caisse)
             <option value="{{$caisse->id}}"> {{$caisse->libelle_caisse}}</option>
             @endforeach
@@ -21,14 +21,16 @@
 <div class="col-md-4">
     <div class="form-group">
         <select id="searchByCaissier"  class="form-control">
-            <option value="0">--- Tous les caissiers ---</option>
+            <option value="tous">--- Tous les caissiers ---</option>
             @foreach($caissiers as $caissier)
             <option value="{{$caissier->id}}"> {{$caissier->full_name}}</option>
             @endforeach
         </select>
     </div>
 </div>
-
+<div class="col-md-3">
+    <a class="btn btn-success pull-right" onclick="imprimePdf()">Imprimer</a><br/>
+</div>
 <table id="table" class="table table-warning table-striped box box-warning"
                data-pagination="true"
                data-search="false" 
@@ -61,19 +63,37 @@
         
         $("#searchByCaisse").change(function (e) {
             var caisse = $("#searchByCaisse").val();
-            if(caisse==0){
+            var caissier = $("#searchByCaissier").val();
+
+            if(caisse == "tous" && caissier == "tous"){
                 $table.bootstrapTable('refreshOptions', {url: "{{url('taxe', ['action' => 'liste-billetages'])}}"}); 
-            }else{
+            }
+            if(caisse != "tous" && caissier == "tous"){
                 $table.bootstrapTable('refreshOptions', {url: '../taxe/liste-billetages-by-caisse/' + caisse});
+            }
+            if(caisse == "tous" && caissier != "tous"){
+                $table.bootstrapTable('refreshOptions', {url: '../taxe/liste-billetages-by-caissier/' + caissier});
+            }
+            if(caisse != "tous" && caissier != "tous"){
+                $table.bootstrapTable('refreshOptions', {url: '../taxe/liste-billetages-by-caisse-by-caissier/'+ caisse + '/' + caissier});
             }
         });
         
        $("#searchByCaissier").change(function (e) {
+            var caisse = $("#searchByCaisse").val();
             var caissier = $("#searchByCaissier").val();
-            if(caissier==0){
+
+            if(caisse == "tous" && caissier == "tous"){
                 $table.bootstrapTable('refreshOptions', {url: "{{url('taxe', ['action' => 'liste-billetages'])}}"}); 
-            }else{
+            }
+            if(caisse != "tous" && caissier == "tous"){
+                $table.bootstrapTable('refreshOptions', {url: '../taxe/liste-billetages-by-caisse/' + caisse});
+            }
+            if(caisse == "tous" && caissier != "tous"){
                 $table.bootstrapTable('refreshOptions', {url: '../taxe/liste-billetages-by-caissier/' + caissier});
+            }
+            if(caisse != "tous" && caissier != "tous"){
+                $table.bootstrapTable('refreshOptions', {url: '../taxe/liste-billetages-by-caisse-by-caissier/'+ caisse + '/' + caissier});
             }
         });
     });
@@ -94,6 +114,24 @@
     
     function billetageFormatter(id, row){
         return '<button type="button" class="btn btn-xs btn-info" data-placement="left" data-toggle="tooltip" title="Ticket" onClick="javascript:billetPrintRow(' + row.id + ');"><i class="fa fa-file-pdf-o"></i></button>';
+    }
+
+    function imprimePdf(){
+        var caisse = $("#searchByCaisse").val();
+        var caissier = $("#searchByCaissier").val();
+
+        if(caisse == "tous" && caissier == "tous"){
+            window.open("../taxe/liste-caisses-fermees-pdf/" ,'_blank');
+        }
+        if(caisse != "tous" && caissier == "tous"){
+            window.open("../taxe/liste-caisses-fermees-by-caisse-pdf/" + caisse,'_blank');  
+        }
+        if(caisse == "tous" && caissier != "tous"){
+            window.open("../taxe/liste-caisses-fermees-by-caissier-pdf/" + caissier,'_blank');  
+        }
+        if(caisse != "tous" && caissier != "tous"){
+            window.open("../taxe/liste-caisses-fermees-by-caisse-caissier-pdf/" + caisse + "/" + caissier,'_blank');  
+        }
     }
 </script>
 @else

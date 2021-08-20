@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Taxe;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use App\Models\Taxes\Billetage;
+use App\Models\Taxes\Caisse;
 use App\Models\Taxes\CaisseOuverte;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -51,6 +53,7 @@ class BilletageController extends Controller
     }
     
     public function listeBilletageByCaisse($caisse){
+
         $caisses = CaisseOuverte::where([['caisse_ouvertes.deleted_at', NULL],['caisse_ouvertes.caisse_id',$caisse],['caisse_ouvertes.date_fermeture','!=',null]])
                                     ->join('caisses','caisses.id','=','caisse_ouvertes.caisse_id')
                                     ->join('users','users.id','=','caisse_ouvertes.user_id')
@@ -64,6 +67,18 @@ class BilletageController extends Controller
     
     public function listeBilletageByCaissier($caissier){
         $caisses = CaisseOuverte::where([['caisse_ouvertes.deleted_at', NULL],['caisse_ouvertes.user_id',$caissier],['caisse_ouvertes.date_fermeture','!=',null]])
+                                    ->join('caisses','caisses.id','=','caisse_ouvertes.caisse_id')
+                                    ->join('users','users.id','=','caisse_ouvertes.user_id')
+                                    ->select('caisse_ouvertes.*','users.full_name','caisses.libelle_caisse',DB::raw('DATE_FORMAT(caisse_ouvertes.date_ouverture, "%d-%m-%Y à %H:%i") as date_ouvertures'),DB::raw('DATE_FORMAT(caisse_ouvertes.date_fermeture, "%d-%m-%Y à %H:%i") as date_fermetures'))
+                                    ->get();
+        
+       $jsonData["rows"] = $caisses->toArray();
+       $jsonData["total"] = $caisses->count();
+       return response()->json($jsonData);
+    }
+
+    public function listeBilletageByCaisseByCaissier($caisse, $caissier){
+         $caisses = CaisseOuverte::where([['caisse_ouvertes.deleted_at', NULL],['caisse_ouvertes.user_id',$caissier],['caisse_ouvertes.caisse_id',$caisse],['caisse_ouvertes.date_fermeture','!=',null]])
                                     ->join('caisses','caisses.id','=','caisse_ouvertes.caisse_id')
                                     ->join('users','users.id','=','caisse_ouvertes.user_id')
                                     ->select('caisse_ouvertes.*','users.full_name','caisses.libelle_caisse',DB::raw('DATE_FORMAT(caisse_ouvertes.date_ouverture, "%d-%m-%Y à %H:%i") as date_ouvertures'),DB::raw('DATE_FORMAT(caisse_ouvertes.date_fermeture, "%d-%m-%Y à %H:%i") as date_fermetures'))
@@ -145,7 +160,8 @@ class BilletageController extends Controller
         }
         return $d;
     }
-    //Eatat 
+
+    //Etat 
     public function billetagePdf($caisse_ouverte){
         $pdf = \App::make('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
@@ -207,6 +223,69 @@ class BilletageController extends Controller
         $outPut .='</table>';
         $outPut.='<br/> Montant total : <b> '.number_format($montantTotal, 0, ',', ' ').' F CFA</b><br/>'.$motif_non_conformite;
        
+        $outPut.= $this->footer();
+        return $outPut;
+    }
+
+    //liste des historiques de caisse
+    public function listeCaisseFermeesPdf(){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeCaisseFermees());
+        return $pdf->stream('historique_caisse.pdf');
+    }
+    public function listeCaisseFermees(){
+        $outPut = $this->header();
+        $outPut.= $this->footer();
+        return $outPut;
+    }
+
+    //liste des historiques de caisse par caisse
+    public function listeCaisseFermeesByCaissePdf($caisse){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeCaisseFermeesByCaisses($caisse));
+        $infoCaisse = Caisse::find($caisse);
+        return $pdf->stream('historique_caisse_'.$infoCaisse->libelle_caisse.'.pdf');
+    }
+    public function listeCaisseFermeesByCaisses($caisse){
+        $infoCaisse = Caisse::find($caisse);
+        $outPut = $this->header();
+        $outPut.=$infoCaisse->libelle_caisse;
+        $outPut.= $this->footer();
+        return $outPut;
+    }
+
+     //liste des historiques de caisse par caissier
+    public function listeCaisseFermeesByCaissierPdf($caissier){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeCaisseFermeesByCaissiers($caissier));
+        $infoUser = User::find($caissier);
+        return $pdf->stream('historique_caisse_'.$infoUser->full_name.'.pdf');
+    }
+    public function listeCaisseFermeesByCaissiers($caissier){
+        $infoUser = User::find($caissier);
+        $outPut = $this->header();
+        $outPut.=$infoUser->full_name;
+        $outPut.= $this->footer();
+        return $outPut;
+    }
+
+     //liste des historiques de caisse par caisse et caissier
+    public function listeCaisseFermeesByCaisseByCaissierPdf($caisse,$caissier){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeCaisseFermeesByCaisseByCaissiers($caisse,$caissier));
+        $infoCaisse = Caisse::find($caisse);
+        $infoUser = User::find($caissier);
+        return $pdf->stream('historique_caisse_'.$infoCaisse->libelle_caisse.'_du_caissier_'.$infoUser->full_name.'.pdf');
+    }
+    public function listeCaisseFermeesByCaisseByCaissiers($caisse,$caissier){
+        $infoCaisse = Caisse::find($caisse);
+        $infoUser = User::find($caissier);
+        $outPut = $this->header();
+        $outPut.=$infoUser->full_name.'-'.$infoCaisse->libelle_caisse;
         $outPut.= $this->footer();
         return $outPut;
     }
@@ -309,7 +388,6 @@ class BilletageController extends Controller
         </header>';   
         return $header;
     }
-    
     
     public function footer(){
         $footer ="<div class='fixed-footer'>

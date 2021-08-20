@@ -437,9 +437,10 @@ Route::namespace('Taxe')->middleware('auth')->name('taxe.')->prefix('taxe')->gro
     //**Billetages
     Route::get('liste-billetages-by-caisse/{caisse}', 'BilletageController@listeBilletageByCaisse');
     Route::get('liste-billetages-by-caissier/{caissier}', 'BilletageController@listeBilletageByCaissier');
+    Route::get('liste-billetages-by-caisse-by-caissier/{caisse}/{caissier}', 'BilletageController@listeBilletageByCaisseByCaissier');
 
 
-    //Etats//
+    //Etats// 
 
     //* Contribuables *//
     Route::get('liste-contribuables-pdf', 'ContribuableController@listeContribuablePdf');
@@ -454,10 +455,14 @@ Route::namespace('Taxe')->middleware('auth')->name('taxe.')->prefix('taxe')->gro
     Route::get('liste-activites-by-contribuable-localite-pdf/{contribuable}/{localite}', 'DeclarationActiviteController@listeActiviteByContribuableLocalitePdf');
 
     //* Historique des caisses *//
-    //Route::get('liste-caisses-pdf', 'DeclarationActiviteController@listeCaissePdf');
+    Route::get('liste-caisses-fermees-pdf', 'BilletageController@listeCaisseFermeesPdf');
+    Route::get('liste-caisses-fermees-by-caisse-pdf/{caisse}', 'BilletageController@listeCaisseFermeesByCaissePdf');
+    Route::get('liste-caisses-fermees-by-caissier-pdf/{caissier}', 'BilletageController@listeCaisseFermeesByCaissierPdf');
+    Route::get('liste-caisses-fermees-by-caisse-caissier-pdf/{caisse}/{caissier}', 'BilletageController@listeCaisseFermeesByCaisseByCaissierPdf');
 
     //* Taxes *//
-     //Route::get('liste-caisses-pdf', 'DeclarationActiviteController@listeCaissePdf');
+    Route::get('liste-taxes-payees-pdf', 'PayementTaxeController@listeTaxesPayeesPdf');
+    Route::get('liste-taxes-payees-by-periode-pdf/{debut}/{fin}', 'PayementTaxeController@listeTaxesPayeesByPeriodePdf');
 });
 
 

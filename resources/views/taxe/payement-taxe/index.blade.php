@@ -24,7 +24,9 @@
        <input type="text" class="form-control" id="dateFin" placeholder="Date fin">
     </div>
 </div>
-
+<div class="col-md-3">
+    <a class="btn btn-success pull-right" onclick="imprimePdf()">Imprimer</a><br/>
+</div>
 <table id="table" class="table table-warning table-striped box box-warning"
                data-pagination="true"
                data-search="false" 
@@ -90,6 +92,17 @@
     }
     function tiketFormatter(id, row){
         return '<button type="button" class="btn btn-xs btn-info" data-placement="left" data-toggle="tooltip" title="Ticket" onClick="javascript:ticketPrintRow(' + row.id + ');"><i class="fa fa-file-pdf-o"></i></button>';
+    }
+
+    function imprimePdf(){
+        var dateDebut = $("#dateDebut").val();
+        var dateFin = $("#dateFin").val();
+
+        if(dateDebut == "" && dateFin == ""){
+            window.open("../taxe/liste-taxes-payees-pdf/" ,'_blank');
+        }else{
+            window.open("../taxe/liste-taxes-payees-by-periode-pdf/" + dateDebut + '/' + dateFin,'_blank');
+        }
     }
 </script>
 @else

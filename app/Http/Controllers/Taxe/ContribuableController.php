@@ -274,7 +274,46 @@ class ContribuableController extends Controller
         return $pdf->stream('liste_contribuables.pdf');
     }
     public function listeContribuables(){
+        $datas = Contribuable::where('contribuables.deleted_at', NULL)
+                                ->join('nations','nations.id','=','contribuables.nation_id')
+                                ->join('communes','communes.id','=','contribuables.commune_id')
+                                ->select('communes.libelle_commune','nations.libelle_nation','contribuables.*',DB::raw('DATE_FORMAT(contribuables.date_naissance, "%d-%m-%Y") as date_naissances'))
+                                ->orderBy('nom_complet', 'ASC')
+                                ->get();
         $outPut = $this->headerFiche();
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des contribuables </u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='20%' align='center'>N° ident </th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Contribuable</th>
+                                <th cellspacing='0' border='2' width='15%' align='center'>Sexe</th>
+                                <th cellspacing='0' border='2' width='25%' align='center'>Contact</th>
+                                <th cellspacing='0' border='2' width='25%' align='center'>Nationalité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>E-mail</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Commune</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Adresse</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + 1;
+            $outPut .= '
+                    <tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->numero_identifiant.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_complet.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->sexe.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->contact.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_nation.'</td>
+                            <td  cellspacing="0" border="2" align="center">'.$data->email.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_commune.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->adresse.'</td>
+                        </tr>
+                       ';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Nombre totale:<b> '.number_format($total, 0, ',', ' ').' contribuabl(s)</b>';
         $outPut.= $this->footerFiche();
         return $outPut;
     }
@@ -291,8 +330,44 @@ class ContribuableController extends Controller
     }
     public function listeContribuableByNations($nation){
         $infosNation = Nation::find($nation);
+        $datas = Contribuable::where([['contribuables.deleted_at', NULL],['contribuables.nation_id',$nation]])
+                                ->join('nations','nations.id','=','contribuables.nation_id')
+                                ->join('communes','communes.id','=','contribuables.commune_id')
+                                ->select('communes.libelle_commune','nations.libelle_nation','contribuables.*',DB::raw('DATE_FORMAT(contribuables.date_naissance, "%d-%m-%Y") as date_naissances'))
+                                ->orderBy('nom_complet', 'ASC')
+                                ->get();
         $outPut = $this->headerFiche();
-        $outPut.= "contribuables ".$infosNation->libelle_nation;
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des contribuables ".$infosNation->libelle_nation."(s)</u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='20%' align='center'>N° ident </th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Contribuable</th>
+                                <th cellspacing='0' border='2' width='15%' align='center'>Sexe</th>
+                                <th cellspacing='0' border='2' width='25%' align='center'>Contact</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>E-mail</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Commune</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Adresse</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + 1;
+            $outPut .= '
+                    <tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->numero_identifiant.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_complet.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->sexe.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->contact.'</td>
+                            <td  cellspacing="0" border="2" align="center">'.$data->email.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_commune.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->adresse.'</td>
+                        </tr>
+                       ';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Nombre totale:<b> '.number_format($total, 0, ',', ' ').' contribuabl(s)</b>';
         $outPut.= $this->footerFiche();
         return $outPut;
     }
@@ -306,8 +381,45 @@ class ContribuableController extends Controller
         return $pdf->stream('liste_contribuables_de_sexe_'.$sexe.'.pdf');
     }
     public function listeContribuableBySexes($sexe){
+       
+        $datas = Contribuable::where([['contribuables.deleted_at', NULL],['contribuables.sexe',$sexe]])
+                                ->join('nations','nations.id','=','contribuables.nation_id')
+                                ->join('communes','communes.id','=','contribuables.commune_id')
+                                ->select('communes.libelle_commune','nations.libelle_nation','contribuables.*',DB::raw('DATE_FORMAT(contribuables.date_naissance, "%d-%m-%Y") as date_naissances'))
+                                ->orderBy('nom_complet', 'ASC')
+                                ->get();
         $outPut = $this->headerFiche();
-        $outPut.= "contribuables de sexe".$sexe;
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des contribuables ".$sexe."s</u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='20%' align='center'>N° ident </th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Contribuable</th>
+                                <th cellspacing='0' border='2' width='25%' align='center'>Contact</th>
+                                <th cellspacing='0' border='2' width='25%' align='center'>Nationalité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>E-mail</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Commune</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Adresse</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + 1;
+            $outPut .= '
+                    <tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->numero_identifiant.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_complet.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->contact.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_nation.'</td>
+                        <td  cellspacing="0" border="2" align="center">'.$data->email.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_commune.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->adresse.'</td>
+                        </tr>
+                       ';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Nombre totale:<b> '.number_format($total, 0, ',', ' ').' contribuabl(s)</b>';
         $outPut.= $this->footerFiche();
         return $outPut;
     }

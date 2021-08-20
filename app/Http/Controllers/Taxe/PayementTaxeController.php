@@ -461,6 +461,34 @@ class PayementTaxeController extends Controller
         $outPut.= $this->footer();
         return $outPut;
     }
+
+    //liste payement de toutes les taxes
+    public function listeTaxesPayeesPdf(){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeTaxesPayeess());
+        return $pdf->stream('taxe_payees.pdf');
+    }
+    public function listeTaxesPayeess(){
+        $outPut = $this->header();
+        $outPut.= $this->footer();
+        return $outPut;
+    }
+
+     //liste payement de toutes les taxes par période
+    public function listeTaxesPayeesByPeriodePdf($debut,$fin){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadHTML($this->listeTaxesPayeesByPeriodes($debut,$fin));
+        return $pdf->stream('taxe_payees_du_'.$debut.'_au_'.$fin.'.pdf');
+    }
+    public function listeTaxesPayeesByPeriodes($debut,$fin){
+        $outPut = $this->header();
+        $outPut.= $debut.$fin;
+        $outPut.= $this->footer();
+        return $outPut;
+    }
+
     
     //Header and footer des pdf pour les listes dans tableau
     public function header(){
@@ -560,7 +588,6 @@ class PayementTaxeController extends Controller
         </header>';   
         return $header;
     }
-    
     
     public function footer(){
         $footer ="<div class='fixed-footer'>

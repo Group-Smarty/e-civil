@@ -289,7 +289,51 @@ class DeclarationActiviteController extends Controller
         return $pdf->stream('liste_activites.pdf');
     }
     public function listeActivites(){
+        $datas = DeclarationActivite::where('declaration_activites.deleted_at', NULL)
+                        ->join('type_societes','type_societes.id','=','declaration_activites.type_societe_id')
+                        ->join('secteurs','secteurs.id','=','declaration_activites.secteur_id')
+                        ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+                        ->join('localites','localites.id','=','declaration_activites.localite_id')
+                        ->select('localites.libelle_localite','contribuables.nom_complet','secteurs.libelle_secteur','type_societes.libelle_type_societe','declaration_activites.*',DB::raw('DATE_FORMAT(declaration_activites.date_declaration, "%d-%m-%Y") as date_declarations'))
+                        ->orderBy('declaration_activites.date_declaration', 'DESC')
+                        ->get();
+
         $outPut = $this->headerFiche();
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des activité déclarées </u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='20%' align='center'>Date décl. </th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Structure</th>
+                                <th cellspacing='0' border='2' width='20%' align='center'>Type société</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Activité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Secteur d'activité</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Contribuable</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Localité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Adresse</th>
+                                <th cellspacing='0' border='2' width='25%' align='center'>N° registre</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + 1;
+            $outPut .= '
+                    <tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_declarations.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_structure.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_type_societe.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_activite.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_secteur.'</td>
+                            <td  cellspacing="0" border="2" align="center">'.$data->nom_complet.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_localite.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->situation_geographique.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->numero_registre.'</td>
+                        </tr>
+                       ';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Nombre totale:<b> '.number_format($total, 0, ',', ' ').' contribuabl(s)</b>';
         $outPut.= $this->footerFiche();
         return $outPut;
     }
@@ -304,7 +348,51 @@ class DeclarationActiviteController extends Controller
         return $pdf->stream('liste_activites_declarees_le_'.$date.'.pdf');
     }
     public function listeActiviteByDates($date){
+        $dates = Carbon::createFromFormat('d-m-Y', $date);
+        $datas = DeclarationActivite::where('declaration_activites.deleted_at', NULL)
+                        ->join('type_societes','type_societes.id','=','declaration_activites.type_societe_id')
+                        ->join('secteurs','secteurs.id','=','declaration_activites.secteur_id')
+                        ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+                        ->join('localites','localites.id','=','declaration_activites.localite_id')
+                        ->select('localites.libelle_localite','contribuables.nom_complet','secteurs.libelle_secteur','type_societes.libelle_type_societe','declaration_activites.*',DB::raw('DATE_FORMAT(declaration_activites.date_declaration, "%d-%m-%Y") as date_declarations'))
+                        ->whereDate('declaration_activites.date_declaration', $dates)
+                        ->orderBy('declaration_activites.date_declaration', 'DESC')
+                        ->get();
+
         $outPut = $this->headerFiche();
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des activité déclarées le ".$date." </u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Structure</th>
+                                <th cellspacing='0' border='2' width='20%' align='center'>Type société</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Activité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Secteur d'activité</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Contribuable</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Localité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Adresse</th>
+                                <th cellspacing='0' border='2' width='25%' align='center'>N° registre</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + 1;
+            $outPut .= '
+                    <tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_structure.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_type_societe.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_activite.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_secteur.'</td>
+                            <td  cellspacing="0" border="2" align="center">'.$data->nom_complet.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_localite.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->situation_geographique.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->numero_registre.'</td>
+                        </tr>
+                       ';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Nombre totale:<b> '.number_format($total, 0, ',', ' ').' contribuabl(s)</b>';
         $outPut.= $this->footerFiche();
         return $outPut;
     }
@@ -319,7 +407,50 @@ class DeclarationActiviteController extends Controller
         return $pdf->stream('liste_activites_declarees_de_'.$infosContribuable->nom_complet.'.pdf');
     }
     public function listeActiviteByContribuables($contribuable){
+         $infosContribuable = Contribuable::find($contribuable);
+         $datas = DeclarationActivite::where([['declaration_activites.deleted_at', NULL],['declaration_activites.contribuable_id',$contribuable]])
+                        ->join('type_societes','type_societes.id','=','declaration_activites.type_societe_id')
+                        ->join('secteurs','secteurs.id','=','declaration_activites.secteur_id')
+                        ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+                        ->join('localites','localites.id','=','declaration_activites.localite_id')
+                        ->select('localites.libelle_localite','contribuables.nom_complet','secteurs.libelle_secteur','type_societes.libelle_type_societe','declaration_activites.*',DB::raw('DATE_FORMAT(declaration_activites.date_declaration, "%d-%m-%Y") as date_declarations'))
+                        ->orderBy('declaration_activites.date_declaration', 'DESC')
+                        ->get();
+
         $outPut = $this->headerFiche();
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des activité déclarées au nom du contribuable ".$infosContribuable->nom_complet."</u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='20%' align='center'>Date décl. </th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Structure</th>
+                                <th cellspacing='0' border='2' width='20%' align='center'>Type société</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Activité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Secteur d'activité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Localité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Adresse</th>
+                                <th cellspacing='0' border='2' width='25%' align='center'>N° registre</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + 1;
+            $outPut .= '
+                    <tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_declarations.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_structure.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_type_societe.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_activite.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_secteur.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_localite.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->situation_geographique.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->numero_registre.'</td>
+                        </tr>
+                       ';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Nombre totale:<b> '.number_format($total, 0, ',', ' ').' contribuabl(s)</b>';
         $outPut.= $this->footerFiche();
         return $outPut;
     }
@@ -334,7 +465,49 @@ class DeclarationActiviteController extends Controller
         return $pdf->stream('liste_activites_de_la_localite_'.$infosLocalite->libelle_localite.'.pdf');
     }
     public function listeActiviteByLocalites($localite){
+        $infosLocalite = Localite::find($localite);
+         $datas = DeclarationActivite::where([['declaration_activites.deleted_at', NULL],['declaration_activites.localite_id',$localite]])
+                        ->join('type_societes','type_societes.id','=','declaration_activites.type_societe_id')
+                        ->join('secteurs','secteurs.id','=','declaration_activites.secteur_id')
+                        ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+                        ->select('contribuables.nom_complet','secteurs.libelle_secteur','type_societes.libelle_type_societe','declaration_activites.*',DB::raw('DATE_FORMAT(declaration_activites.date_declaration, "%d-%m-%Y") as date_declarations'))
+                        ->orderBy('declaration_activites.date_declaration', 'DESC')
+                        ->get();
+
         $outPut = $this->headerFiche();
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des activité déclarées dans la localité ".$infosLocalite->libelle_localite."</u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='20%' align='center'>Date décl. </th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Structure</th>
+                                <th cellspacing='0' border='2' width='20%' align='center'>Type société</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Activité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Secteur d'activité</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Contribuable</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Adresse</th>
+                                <th cellspacing='0' border='2' width='25%' align='center'>N° registre</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + 1;
+            $outPut .= '
+                    <tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_declarations.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_structure.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_type_societe.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_activite.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_secteur.'</td>
+                            <td  cellspacing="0" border="2" align="center">'.$data->nom_complet.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->situation_geographique.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->numero_registre.'</td>
+                        </tr>
+                       ';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Nombre totale:<b> '.number_format($total, 0, ',', ' ').' contribuabl(s)</b>';
         $outPut.= $this->footerFiche();
         return $outPut;
     }
@@ -350,7 +523,48 @@ class DeclarationActiviteController extends Controller
         return $pdf->stream('liste_activites_de_la_localite_'.$infosLocalite->libelle_localite.'_du_contribuable_'.$infosContribuable->nom_complet.'.pdf');
     }
     public function listeActiviteByContribuableLocalites($contribuable,$localite){
+          $infosLocalite = Localite::find($localite);
+          $infosContribuable = Contribuable::find($contribuable);
+         $datas = DeclarationActivite::where([['declaration_activites.deleted_at', NULL],['declaration_activites.localite_id',$localite],['declaration_activites.contribuable_id',$contribuable]])
+                        ->join('type_societes','type_societes.id','=','declaration_activites.type_societe_id')
+                        ->join('secteurs','secteurs.id','=','declaration_activites.secteur_id')
+                        ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+                        ->select('contribuables.nom_complet','secteurs.libelle_secteur','type_societes.libelle_type_societe','declaration_activites.*',DB::raw('DATE_FORMAT(declaration_activites.date_declaration, "%d-%m-%Y") as date_declarations'))
+                        ->orderBy('declaration_activites.date_declaration', 'DESC')
+                        ->get();
+
         $outPut = $this->headerFiche();
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des activité déclarées dans la localité ".$infosLocalite->libelle_localite." au nom du contribuable ".$infosContribuable->nom_complet."</u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='20%' align='center'>Date décl. </th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Structure</th>
+                                <th cellspacing='0' border='2' width='20%' align='center'>Type société</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Activité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Secteur d'activité</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Adresse</th>
+                                <th cellspacing='0' border='2' width='25%' align='center'>N° registre</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + 1;
+            $outPut .= '
+                    <tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_declarations.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_structure.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_type_societe.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_activite.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_secteur.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->situation_geographique.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->numero_registre.'</td>
+                        </tr>
+                       ';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Nombre totale:<b> '.number_format($total, 0, ',', ' ').' contribuabl(s)</b>';
         $outPut.= $this->footerFiche();
         return $outPut;
     }
