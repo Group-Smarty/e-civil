@@ -198,7 +198,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_declarant" id="nom_complet_declarant" name="nom_complet_declarant" placeholder="Nom et prénom(s) du déclarant" required>
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_declarant" id="nom_complet_declarant" name="nom_complet_declarant" placeholder="Prénom(s) et nom du déclarant" required>
                                             </div>
                                         </div>
                                     </div>
@@ -288,7 +288,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_homme" id="nom_complet_homme" name="nom_complet_homme" placeholder="Nom et prénom(s)" required>
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_homme" id="nom_complet_homme" name="nom_complet_homme" placeholder="Prénom(s) et nom" required>
                                             </div>
                                         </div>
                                     </div>
@@ -366,7 +366,7 @@
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-male"></i>
                                                         </div>
-                                                        <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_pere_homme" id="nom_complet_pere_homme" name="nom_complet_pere_homme" placeholder="Nom et prénom(s) du père">
+                                                        <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_pere_homme" id="nom_complet_pere_homme" name="nom_complet_pere_homme" placeholder="Prénom(s) et nom du père">
                                                     </div>
                                                 </div>
                                             </div> 
@@ -393,7 +393,7 @@
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-female"></i>
                                                         </div>
-                                                        <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_mere_homme" id="nom_complet_mere_homme" name="nom_complet_mere_homme" placeholder="Nom et prénom(s) de la mère">
+                                                        <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_mere_homme" id="nom_complet_mere_homme" name="nom_complet_mere_homme" placeholder="Prénom(s) et nom de la mère">
                                                     </div>
                                                 </div>
                                             </div>  
@@ -421,7 +421,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_femme" id="nom_complet_femme" name="nom_complet_femme" placeholder="Nom et prénom(s)" required>
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_femme" id="nom_complet_femme" name="nom_complet_femme" placeholder="Prénom(s) et nom" required>
                                             </div>
                                         </div>
                                     </div>
@@ -499,7 +499,7 @@
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-male"></i>
                                                         </div>
-                                                        <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_pere_femme" id="nom_complet_pere_femme" name="nom_complet_pere_femme" placeholder="Nom et prénom(s) du père">
+                                                        <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_pere_femme" id="nom_complet_pere_femme" name="nom_complet_pere_femme" placeholder="Prénom(s) et nom du père">
                                                     </div>
                                                 </div>
                                             </div> 
@@ -526,7 +526,7 @@
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-female"></i>
                                                         </div>
-                                                        <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_mere_femme" id="nom_complet_mere_femme" name="nom_complet_mere_femme" placeholder="Nom et prénom(s) de la mère">
+                                                        <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_mere_femme" id="nom_complet_mere_femme" name="nom_complet_mere_femme" placeholder="Prénom(s) et nom de la mère">
                                                     </div>
                                                 </div>
                                             </div>  
@@ -554,7 +554,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_temoin_1" id="nom_complet_temoin_1" name="nom_complet_temoin_1" placeholder="Nom et prénom du témoin 1">
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_temoin_1" id="nom_complet_temoin_1" name="nom_complet_temoin_1" placeholder="Prénom(s) et nom du témoin 1">
                                             </div>
                                         </div>
                                     </div>
@@ -594,7 +594,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_temoin_2" id="nom_complet_temoin_2" name="nom_complet_temoin_2" placeholder="Nom et prénom du témoin 2">
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="mariage.nom_complet_temoin_2" id="nom_complet_temoin_2" name="nom_complet_temoin_2" placeholder="Prénom(s) et nom du témoin 2">
                                             </div>
                                         </div>
                                     </div>
@@ -754,7 +754,7 @@
                         <div class="col-md-6">
                             <h5 class="text-bold text-green">Epoux</h5>
                             <ul class="nav nav-stacked">
-                                <li><a>Nom et pr&eacute;nom(s) : &nbsp;&nbsp;<b>@{{mariage.nom_complet_homme}}</b></a></li>
+                                <li><a>Pr&eacute;nom(s) et Nom : &nbsp;&nbsp;<b>@{{mariage.nom_complet_homme}}</b></a></li>
                                 <li><a>Date de naissance : &nbsp;&nbsp;<b>@{{mariage.date_naissance_hommes}}</b></a></li>
                                 <li><a>Lieu de naissance : &nbsp;&nbsp;<b>@{{mariage.lieu_naissance_homme}}</b></a></li>
                                 <li><a>Adresse : &nbsp;&nbsp;<b>@{{mariage.adresse_domicile_homme}}</b></a></li>
@@ -764,7 +764,7 @@
                         <div class="col-md-6">
                             <h5 class="text-bold text-green">Epouse</h5>
                              <ul class="nav nav-stacked">
-                                <li><a>Nom et pr&eacute;nom(s) : &nbsp;&nbsp;<b>@{{mariage.nom_complet_femme}}</b></a></li>
+                                <li><a>Pr&eacute;nom(s) et Nom : &nbsp;&nbsp;<b>@{{mariage.nom_complet_femme}}</b></a></li>
                                 <li><a>Date de naissance : &nbsp;&nbsp;<b>@{{mariage.date_naissance_femmes}}</b></a></li>
                                 <li><a>Lieu de naissance : &nbsp;&nbsp;<b>@{{mariage.lieu_naissance_femme}}</b></a></li>
                                 <li><a>Adresse : &nbsp;&nbsp;<b>@{{mariage.adresse_domicile_homme}}</b></a></li>
@@ -789,7 +789,7 @@
             @csrf
              <div class="modal-body ">
                 <ul class="nav nav-stacked">
-                    <li><a>Nom et pr&eacute;nom(s) : &nbsp;&nbsp;<b>@{{mariage.nom_complet_declarant}}</b></a></li>
+                    <li><a>Pr&eacute;nom(s) et Nom : &nbsp;&nbsp;<b>@{{mariage.nom_complet_declarant}}</b></a></li>
                     <li><a>Date de d&eacute;claration : &nbsp;&nbsp;<b>@{{mariage.date_declarations}}</b></a></li>
                     <li><a>Contact : &nbsp;&nbsp;<b>@{{mariage.contact_declarant}}</b></a></li>
                     <li><a>Adresse : &nbsp;&nbsp;<b>@{{mariage.adresse_declarant}}</b></a></li>

@@ -698,8 +698,8 @@ class DemandeController extends Controller
            $total = $total + 1;
            $outPut .= '
                         <tr>
-                            <td  cellspacing="0" border="2" align="center">'.$data->prenom_enfant.'</td>
                             <td  cellspacing="0" border="2" align="center">'.$data->nom_enfant.'</td>
+                            <td  cellspacing="0" border="2" align="center">'.$data->prenom_enfant.'</td>
                             <td  cellspacing="0" border="2" align="center">'.date('d-m-Y', strtotime($data->date_naissance_enfant)).'</td>
                             <td  cellspacing="0" border="2" align="center">'.$data->lieu_naissance_enfant.'</td>
                             <td  cellspacing="0" border="2" align="center">'.$data->numero_acte_naissance.' DU '.date('d-m-Y', strtotime($data->date_dresser)).'</td>

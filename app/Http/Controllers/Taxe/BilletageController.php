@@ -232,10 +232,48 @@ class BilletageController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->loadHTML($this->listeCaisseFermees());
+        $pdf->setPaper('A4', 'landscape');
         return $pdf->stream('historique_caisse.pdf');
     }
     public function listeCaisseFermees(){
+        $datas = CaisseOuverte::where([['caisse_ouvertes.deleted_at', NULL],['caisse_ouvertes.date_fermeture','!=',null]])
+                                    ->join('caisses','caisses.id','=','caisse_ouvertes.caisse_id')
+                                    ->join('users','users.id','=','caisse_ouvertes.user_id')
+                                    ->select('caisse_ouvertes.*','users.full_name','caisses.libelle_caisse',DB::raw('DATE_FORMAT(caisse_ouvertes.date_ouverture, "%d-%m-%Y à %H:%i") as date_ouvertures'),DB::raw('DATE_FORMAT(caisse_ouvertes.date_fermeture, "%d-%m-%Y à %H:%i") as date_fermetures'))
+                                    ->get();
+
         $outPut = $this->header();
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des caisses fermées </u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Caisse</th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Caissier</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Ouverture</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Montant Ouverture</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Entrée</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Sortie</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Fermeture</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Solde fermeture</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + ($data->montant_ouverture+$data->entree-$data->sortie);
+            $outPut .='<tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_caisse.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->full_name.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_ouvertures.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format($data->montant_ouverture, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="center">'.number_format($data->entree, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format($data->sortie, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_fermetures.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format(($data->montant_ouverture+$data->entree-$data->sortie), 0, ',', ' ').
+                       '</tr>';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Montant total :<b> '.number_format($total, 0, ',', ' ').' F CFA</b>';
         $outPut.= $this->footer();
         return $outPut;
     }
@@ -246,12 +284,47 @@ class BilletageController extends Controller
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->loadHTML($this->listeCaisseFermeesByCaisses($caisse));
         $infoCaisse = Caisse::find($caisse);
+        $pdf->setPaper('A4', 'landscape');
         return $pdf->stream('historique_caisse_'.$infoCaisse->libelle_caisse.'.pdf');
     }
     public function listeCaisseFermeesByCaisses($caisse){
-        $infoCaisse = Caisse::find($caisse);
+         $infoCaisse = Caisse::find($caisse);
+         $datas = CaisseOuverte::where([['caisse_ouvertes.caisse_id', $caisse],['caisse_ouvertes.deleted_at', NULL],['caisse_ouvertes.date_fermeture','!=',null]])
+                                    ->join('caisses','caisses.id','=','caisse_ouvertes.caisse_id')
+                                    ->join('users','users.id','=','caisse_ouvertes.user_id')
+                                    ->select('caisse_ouvertes.*','users.full_name','caisses.libelle_caisse',DB::raw('DATE_FORMAT(caisse_ouvertes.date_ouverture, "%d-%m-%Y à %H:%i") as date_ouvertures'),DB::raw('DATE_FORMAT(caisse_ouvertes.date_fermeture, "%d-%m-%Y à %H:%i") as date_fermetures'))
+                                    ->get();
+
         $outPut = $this->header();
-        $outPut.=$infoCaisse->libelle_caisse;
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Historiques de la ".$infoCaisse->libelle_caisse."</u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Caissier</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Ouverture</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Montant Ouverture</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Entrée</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Sortie</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Fermeture</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Solde fermeture</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + ($data->montant_ouverture+$data->entree-$data->sortie);
+            $outPut .='<tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->full_name.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_ouvertures.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format($data->montant_ouverture, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="center">'.number_format($data->entree, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format($data->sortie, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_fermetures.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format(($data->montant_ouverture+$data->entree-$data->sortie), 0, ',', ' ').
+                       '</tr>';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Montant total :<b> '.number_format($total, 0, ',', ' ').' F CFA</b>';
         $outPut.= $this->footer();
         return $outPut;
     }
@@ -262,12 +335,47 @@ class BilletageController extends Controller
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->loadHTML($this->listeCaisseFermeesByCaissiers($caissier));
         $infoUser = User::find($caissier);
+        $pdf->setPaper('A4', 'landscape');
         return $pdf->stream('historique_caisse_'.$infoUser->full_name.'.pdf');
     }
     public function listeCaisseFermeesByCaissiers($caissier){
         $infoUser = User::find($caissier);
+        $datas = CaisseOuverte::where([['caisse_ouvertes.user_id', $caissier],['caisse_ouvertes.deleted_at', NULL],['caisse_ouvertes.date_fermeture','!=',null]])
+                                    ->join('caisses','caisses.id','=','caisse_ouvertes.caisse_id')
+                                    ->join('users','users.id','=','caisse_ouvertes.user_id')
+                                    ->select('caisse_ouvertes.*','users.full_name','caisses.libelle_caisse',DB::raw('DATE_FORMAT(caisse_ouvertes.date_ouverture, "%d-%m-%Y à %H:%i") as date_ouvertures'),DB::raw('DATE_FORMAT(caisse_ouvertes.date_fermeture, "%d-%m-%Y à %H:%i") as date_fermetures'))
+                                    ->get();
+
         $outPut = $this->header();
-        $outPut.=$infoUser->full_name;
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des caisses ouvertes au nos de ".$infoUser->full_name." </u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Caisse</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Ouverture</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Montant Ouverture</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Entrée</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Sortie</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Fermeture</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Solde fermeture</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + ($data->montant_ouverture+$data->entree-$data->sortie);
+            $outPut .='<tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->libelle_caisse.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_ouvertures.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format($data->montant_ouverture, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="center">'.number_format($data->entree, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format($data->sortie, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_fermetures.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format(($data->montant_ouverture+$data->entree-$data->sortie), 0, ',', ' ').
+                       '</tr>';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Montant total :<b> '.number_format($total, 0, ',', ' ').' F CFA</b>';
         $outPut.= $this->footer();
         return $outPut;
     }
@@ -284,8 +392,40 @@ class BilletageController extends Controller
     public function listeCaisseFermeesByCaisseByCaissiers($caisse,$caissier){
         $infoCaisse = Caisse::find($caisse);
         $infoUser = User::find($caissier);
+         $datas = CaisseOuverte::where([['caisse_ouvertes.user_id', $caissier],['caisse_ouvertes.deleted_at', NULL],['caisse_ouvertes.date_fermeture','!=',null]])
+                                    ->join('caisses','caisses.id','=','caisse_ouvertes.caisse_id')
+                                    ->join('users','users.id','=','caisse_ouvertes.user_id')
+                                    ->select('caisse_ouvertes.*','users.full_name','caisses.libelle_caisse',DB::raw('DATE_FORMAT(caisse_ouvertes.date_ouverture, "%d-%m-%Y à %H:%i") as date_ouvertures'),DB::raw('DATE_FORMAT(caisse_ouvertes.date_fermeture, "%d-%m-%Y à %H:%i") as date_fermetures'))
+                                    ->get();
+
         $outPut = $this->header();
-        $outPut.=$infoUser->full_name.'-'.$infoCaisse->libelle_caisse;
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des caisses ouvertes au nos de ".$infoUser->full_name." sur la ".$infoCaisse->libelle_caisse."</u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Ouverture</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Montant Ouverture</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Entrée</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Sortie</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Fermeture</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Solde fermeture</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + ($data->montant_ouverture+$data->entree-$data->sortie);
+            $outPut .='<tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_ouvertures.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format($data->montant_ouverture, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="center">'.number_format($data->entree, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format($data->sortie, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_fermetures.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format(($data->montant_ouverture+$data->entree-$data->sortie), 0, ',', ' ').
+                       '</tr>';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Montant total :<b> '.number_format($total, 0, ',', ' ').' F CFA</b>';
         $outPut.= $this->footer();
         return $outPut;
     }

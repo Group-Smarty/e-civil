@@ -130,7 +130,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatConcubinage.nom_complet_homme" id="nom_complet_homme" name="nom_complet_homme" placeholder="Nom et prénom(s) de l'homme" required>
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatConcubinage.nom_complet_homme" id="nom_complet_homme" name="nom_complet_homme" placeholder="Prénom(s) et nom(s) de l'homme" required>
                                             </div>
                                         </div>
                                     </div>
@@ -181,7 +181,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatConcubinage.nom_complet_femme" id="nom_complet_femme" name="nom_complet_femme" placeholder="Nom et prénom(s) de la femme" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatConcubinage.nom_complet_femme" id="nom_complet_femme" name="nom_complet_femme" placeholder="Prénom(s) et nom de la femme" required>
                                 </div>
                             </div>
                         </div>
@@ -269,7 +269,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatConcubinage.nom_complet_temoins_1" id="nom_complet_temoins_1" name="nom_complet_temoins_1" placeholder="Nom et prénom(s) du témoin 1">
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatConcubinage.nom_complet_temoins_1" id="nom_complet_temoins_1" name="nom_complet_temoins_1" placeholder="Prénom(s) et nom du témoin 1">
                                             </div>
                                         </div>
                                     </div>
@@ -357,7 +357,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatConcubinage.nom_complet_temoins_2" id="nom_complet_temoins_2" name="nom_complet_temoins_2" placeholder="Nom et prénom(s) du témoin 2">
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatConcubinage.nom_complet_temoins_2" id="nom_complet_temoins_2" name="nom_complet_temoins_2" placeholder="Prénom(s) et nom du témoin 2">
                                             </div>
                                         </div>
                                     </div>

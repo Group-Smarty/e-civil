@@ -69,7 +69,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="inhumation.nom_complet_demandeur" id="nom_complet_demandeur" name="nom_complet_demandeur" placeholder="Nom et prénom(s) du demandeur" required>
+                                        <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="inhumation.nom_complet_demandeur" id="nom_complet_demandeur" name="nom_complet_demandeur" placeholder="Prénom(s) et nom du demandeur" required>
                                     </div>
                                 </div>
                             </div>
@@ -222,12 +222,12 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Nom et pr&eacute;nom(s) du defunt *</label>
+                                <label>Pr&eacute;nom(s) nom et  du defunt *</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="inhumation.nom_complet_defunt" id="nom_complet_defunt" name="nom_complet_defunt" placeholder="Nom et prénom(s) du defunt" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="inhumation.nom_complet_defunt" id="nom_complet_defunt" name="nom_complet_defunt" placeholder="Prénom(s) et nom du defunt" required>
                                 </div>
                             </div>
                         </div>

@@ -120,7 +120,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonRemargiage.interrese" id="interrese" name="interrese" placeholder="Nom et prénom(s) de l'intéressé" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonRemargiage.interrese" id="interrese" name="interrese" placeholder="Prénom(s) et nom de l'intéressé" required>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonRemargiage.nom_complet_temoin1" id="nom_complet_temoin1" name="nom_complet_temoin1" placeholder="Nom et prénom(s) du témoin 1" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonRemargiage.nom_complet_temoin1" id="nom_complet_temoin1" name="nom_complet_temoin1" placeholder="Prénom(s) et nom du témoin 1" required>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonRemargiage.nom_complet_temoin2" id="nom_complet_temoin2" name="nom_complet_temoin2" placeholder="Nom et prénom(s) du témoin 2" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonRemargiage.nom_complet_temoin2" id="nom_complet_temoin2" name="nom_complet_temoin2" placeholder="Prénom(s) et nom du témoin 2" required>
                                     </div>
                                 </div>
                             </div>

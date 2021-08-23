@@ -156,7 +156,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="decede.nom_complet_decede" id="nom_complet_decede" name="nom_complet_decede" placeholder="Nom et prénom(s) du défunt" required>
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="decede.nom_complet_decede" id="nom_complet_decede" name="nom_complet_decede" placeholder="Prénom(s) et nom du défunt" required>
                                             </div>
                                         </div>
                                     </div>
@@ -318,7 +318,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="decede.nom_complet_declarant" id="nom_complet_declarant" name="nom_complet_declarant" placeholder="Nom et prénom(s) du déclarant" required>
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="decede.nom_complet_declarant" id="nom_complet_declarant" name="nom_complet_declarant" placeholder="Prénom(s) et nom du déclarant" required>
                                             </div>
                                         </div>
                                     </div>
@@ -371,7 +371,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-male"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="decede.nom_complet_pere" id="nom_complet_pere" name="nom_complet_pere" placeholder="Nom et prénom(s) du père">
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="decede.nom_complet_pere" id="nom_complet_pere" name="nom_complet_pere" placeholder="Prénom(s) et nom du père">
                                             </div>
                                         </div>
                                     </div>  
@@ -393,7 +393,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-female"></i>
                                                 </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="decede.nom_complet_mere" id="nom_complet_mere" name="nom_complet_mere" placeholder="Nom et prénom(s) de la mère">
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="decede.nom_complet_mere" id="nom_complet_mere" name="nom_complet_mere" placeholder="Prénom(s) et nom de la mère">
                                             </div>
                                         </div>
                                     </div> 
@@ -486,7 +486,7 @@
             @csrf
             <div class="modal-body ">
                 <ul class="nav nav-stacked">
-                    <li><a>Nom et pr&eacute;nom(s) : &nbsp;&nbsp;<b>@{{decede.nom_complet_declarant}}</b></a></li>
+                    <li><a>Pr&eacute;nom(s) et nom : &nbsp;&nbsp;<b>@{{decede.nom_complet_declarant}}</b></a></li>
                     <li><a>Date de d&eacute;claration : &nbsp;&nbsp;<b>@{{decede.date_declarations}}</b></a></li>
                     <li><a>Contact : &nbsp;&nbsp;<b>@{{decede.contact_declarant}}</b></a></li>
                     <li><a>Adresse : &nbsp;&nbsp;<b>@{{decede.adresse_declarant}}</b></a></li>

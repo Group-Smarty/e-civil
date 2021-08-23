@@ -75,12 +75,12 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Nom et pr&eacute;nom(s) du demandeur *</label>
+                                <label>Pr&eacute;nom(s) et nom et du demandeur *</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="demande.nom_demandeur" id="nom_demandeur" name="nom_demandeur" placeholder="Nom et prénom(s) du demandeur" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="demande.nom_demandeur" id="nom_demandeur" name="nom_demandeur" placeholder="Prénom(s) et nom du demandeur" required>
                                 </div>
                             </div>
                         </div>

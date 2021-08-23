@@ -139,7 +139,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatCelibat.nom_pere" id="nom_pere" name="nom_pere" placeholder="Nom du père">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatCelibat.nom_pere" id="nom_pere" name="nom_pere" placeholder="Nom complet du père">
                                 </div>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatCelibat.nom_mere" id="nom_mere" name="nom_mere" placeholder="Nom de la mère">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatCelibat.nom_mere" id="nom_mere" name="nom_mere" placeholder="Nom complet de la mère">
                                 </div>
                             </div>
                         </div>
@@ -208,7 +208,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" class="form-control" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" ng-model="certificatCelibat.conjoint" id="conjoint" name="conjoint" placeholder="Nom et prénom(s) du conjoint(e)">
+                                    <input type="text" class="form-control" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" ng-model="certificatCelibat.conjoint" id="conjoint" name="conjoint" placeholder="Prénom(s) et nom du conjoint(e)">
                                 </div>
                             </div>
                         </div>

@@ -184,7 +184,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificat.nom_complet_naissance" id="nom_complet_naissance" name="nom_complet_naissance" placeholder="Nom et prénom(s) à la naissance" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificat.nom_complet_naissance" id="nom_complet_naissance" name="nom_complet_naissance" placeholder="Prénom(s) et nom à la naissance" required>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +219,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-male"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificat.nom_complet_pere" id="nom_complet_pere" name="nom_complet_pere" placeholder="Nom et prénom(s) du père">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificat.nom_complet_pere" id="nom_complet_pere" name="nom_complet_pere" placeholder="Prénom(s) et nom du père">
                                 </div>
                             </div>
                         </div>  
@@ -230,7 +230,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-female"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificat.nom_complet_mere" id="nom_complet_mere" name="nom_complet_mere" placeholder="Nom et prénom(s) de la mère">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificat.nom_complet_mere" id="nom_complet_mere" name="nom_complet_mere" placeholder="Prénom(s) et nom de la mère">
                                 </div>
                             </div>
                         </div>  

@@ -67,7 +67,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);"  class="form-control" ng-model="certificatNonSeparationCorps.nom_complet_demandeur" id="nom_complet_demandeur" name="nom_complet_demandeur" placeholder="Nom et prénom(s) demandeur" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);"  class="form-control" ng-model="certificatNonSeparationCorps.nom_complet_demandeur" id="nom_complet_demandeur" name="nom_complet_demandeur" placeholder="Prénom(s) et nom demandeur" required>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonSeparationCorps.nom_complet_concerne" id="nom_complet_concerne" name="nom_complet_concerne" placeholder="Nom et prénom(s) du concerné(e)" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonSeparationCorps.nom_complet_concerne" id="nom_complet_concerne" name="nom_complet_concerne" placeholder="Prénom(s) et nom du concerné(e)" required>
                                 </div>
                             </div>
                         </div>
@@ -162,7 +162,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonSeparationCorps.nom_complet_conjoint" id="nom_complet_conjoint" name="nom_complet_conjoint" placeholder="Nom et prénom(s) du conjoint(e)" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonSeparationCorps.nom_complet_conjoint" id="nom_complet_conjoint" name="nom_complet_conjoint" placeholder="Prénom(s) et nom du conjoint(e)" required>
                                 </div>
                             </div>
                         </div>

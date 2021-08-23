@@ -467,12 +467,53 @@ class PayementTaxeController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->loadHTML($this->listeTaxesPayeess());
+        $pdf->setPaper('A4', 'landscape');
         return $pdf->stream('taxe_payees.pdf');
     }
     public function listeTaxesPayeess(){
+        
+        $datas = PayementTaxe::where('payement_taxes.deleted_at', NULL)
+                            ->join('caisse_ouvertes','caisse_ouvertes.id','=','payement_taxes.caisse_ouverte_id')
+                            ->join('declaration_activites','declaration_activites.id','=','payement_taxes.declaration_activite_id')
+                            ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+                            ->select('payement_taxes.*','declaration_activites.nom_structure', 'contribuables.nom_complet as nom_complet_contribuable',DB::raw('DATE_FORMAT(payement_taxes.date_prochain_payement, "%d-%m-%Y") as date_prochain_payements'),DB::raw('DATE_FORMAT(payement_taxes.date_payement, "%d-%m-%Y") as date_payements'))
+                            ->orderBy('payement_taxes.date_payement', 'DESC')
+                            ->get();
+
         $outPut = $this->header();
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des payements de taxe </u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='30%' align='center'>N° Facture</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Date</th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Payer par</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Montant</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Structure</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Prochain payement</th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Contribuable</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + $data->Montant;
+            $outPut .='<tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->numero_ticket.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_payements.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->payement_effectuer_par.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format($data->montant, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="center">'.$data->nom_structure.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_prochain_payement.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_complet_contribuable.
+                       '</tr>';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Montant total :<b> '.number_format($total, 0, ',', ' ').' F CFA</b>';
         $outPut.= $this->footer();
         return $outPut;
+
+       
     }
 
      //liste payement de toutes les taxes par période
@@ -480,11 +521,53 @@ class PayementTaxeController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->loadHTML($this->listeTaxesPayeesByPeriodes($debut,$fin));
+        $pdf->setPaper('A4', 'landscape');
         return $pdf->stream('taxe_payees_du_'.$debut.'_au_'.$fin.'.pdf');
     }
     public function listeTaxesPayeesByPeriodes($debut,$fin){
+        $date1 = Carbon::createFromFormat('d-m-Y', $debut);
+        $date2 = Carbon::createFromFormat('d-m-Y', $fin);
+
+         $datas = PayementTaxe::where('payement_taxes.deleted_at', NULL)
+                            ->join('caisse_ouvertes','caisse_ouvertes.id','=','payement_taxes.caisse_ouverte_id')
+                            ->join('declaration_activites','declaration_activites.id','=','payement_taxes.declaration_activite_id')
+                            ->join('contribuables','contribuables.id','=','declaration_activites.contribuable_id')
+                            ->select('payement_taxes.*','declaration_activites.nom_structure', 'contribuables.nom_complet as nom_complet_contribuable',DB::raw('DATE_FORMAT(payement_taxes.date_prochain_payement, "%d-%m-%Y") as date_prochain_payements'),DB::raw('DATE_FORMAT(payement_taxes.date_payement, "%d-%m-%Y") as date_payements'))
+                            ->whereDate('payement_taxes.date_payement','>=', $date1)
+                                    ->whereDate('payement_taxes.date_payement','<=', $date2)
+                            ->orderBy('payement_taxes.date_payement', 'DESC')
+                            ->get();
+
         $outPut = $this->header();
-        $outPut.= $debut.$fin;
+        $outPut .= "<div class='container-table'>
+                        <h3 align='center'><u> Liste des payements de taxe du ".$debut." au ".$fin."</u></h3>
+                        <table border='2' cellspacing='0' width='100%'>
+                            <tr>
+                                <th cellspacing='0' border='2' width='30%' align='center'>N° Facture</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Date</th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Payer par</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Montant</th>
+                                <th cellspacing='0' border='2' width='35%' align='center'>Structure</th>
+                                <th cellspacing='0' border='2' width='30%' align='center'>Prochain payement</th>
+                                <th cellspacing='0' border='2' width='40%' align='center'>Contribuable</th>
+                            </tr>
+                        ";
+        $total = 0;
+        foreach ($datas as $data){
+            $total = $total + $data->Montant;
+            $outPut .='<tr>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->numero_ticket.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_payements.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->payement_effectuer_par.'</td>
+                        <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.number_format($data->montant, 0, ',', ' ').'</td>
+                            <td  cellspacing="0" border="2" align="center">'.$data->nom_structure.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->date_prochain_payement.'</td>
+                            <td  cellspacing="0" border="2" align="left">&nbsp;&nbsp;'.$data->nom_complet_contribuable.
+                       '</tr>';
+       }
+       
+        $outPut .='</table></div>';
+        $outPut.='Montant total :<b> '.number_format($total, 0, ',', ' ').' F CFA</b>';
         $outPut.= $this->footer();
         return $outPut;
     }

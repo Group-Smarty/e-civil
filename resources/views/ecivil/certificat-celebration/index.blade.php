@@ -102,7 +102,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatCelebration.nom_epoux" id="nom_epoux" name="nom_epoux" placeholder="Nom et prénom(s) de l'epoux" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatCelebration.nom_epoux" id="nom_epoux" name="nom_epoux" placeholder="Prénom(s) et nom de l'epoux" required>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +131,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatCelebration.nom_epouse" id="nom_epouse" name="nom_epouse" placeholder="Nom et prénom(s) de l'nom_epouse" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatCelebration.nom_epouse" id="nom_epouse" name="nom_epouse" placeholder="Prénom(s) et nom de l'epouse" required>
                                 </div>
                             </div>
                         </div>

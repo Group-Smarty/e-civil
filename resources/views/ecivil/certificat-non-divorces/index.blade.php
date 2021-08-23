@@ -70,7 +70,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.nom_complet_demandeur" id="nom_complet_demandeur" name="nom_complet_demandeur" placeholder="Nom et prénom du demandeur" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.nom_complet_demandeur" id="nom_complet_demandeur" name="nom_complet_demandeur" placeholder="Prénom(s) et nom du demandeur" required>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.nom_complet_homme" id="nom_complet_homme" name="nom_complet_homme" placeholder="Nom et prénom(s) de l'époux" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.nom_complet_homme" id="nom_complet_homme" name="nom_complet_homme" placeholder="Prénom(s) et nom de l'époux" required>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.pere_homme" id="pere_homme" name="pere_homme" placeholder="Nom du père de l'époux">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.pere_homme" id="pere_homme" name="pere_homme" placeholder="Nom complet du père de l'époux">
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.mere_homme" id="mere_homme" name="mere_homme" placeholder="Nom de la mère de l'époux">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.mere_homme" id="mere_homme" name="mere_homme" placeholder="Nom complet de la mère de l'époux">
                                 </div>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.nom_complet_femme" id="nom_complet_femme" name="nom_complet_femme" placeholder="Nom et prénom(s) de la femme" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.nom_complet_femme" id="nom_complet_femme" name="nom_complet_femme" placeholder="Prénom(s) et nom de la femme" required>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +194,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.pere_femme" id="pere_femme" name="pere_femme" placeholder="Nom du père de l'épouse">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.pere_femme" id="pere_femme" name="pere_femme" placeholder="Nom complet du père de l'épouse">
                                 </div>
                             </div>
                         </div>
@@ -205,7 +205,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.mere_femme" id="mere_femme" name="mere_femme" placeholder="Nom de la mère de l'épouse">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonDivorce.mere_femme" id="mere_femme" name="mere_femme" placeholder="Nom complet de la mère de l'épouse">
                                 </div>
                             </div>
                         </div>

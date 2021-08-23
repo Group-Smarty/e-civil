@@ -121,7 +121,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonInscritptionRegistre.nom_complet_decede" id="nom_complet_decede" name="nom_complet_decede" placeholder="Nom et prénom(s) de défunt" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonInscritptionRegistre.nom_complet_decede" id="nom_complet_decede" name="nom_complet_decede" placeholder="Prénom(s) et nom de défunt" required>
                                 </div>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonInscritptionRegistre.nom_complet_pere" id="nom_complet_pere" name="nom_complet_pere" placeholder="Nom et prénom(s) du père du défunt">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonInscritptionRegistre.nom_complet_pere" id="nom_complet_pere" name="nom_complet_pere" placeholder="Prénom(s) et nom du père du défunt">
                                 </div>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonInscritptionRegistre.nom_complet_mere" id="nom_complet_mere" name="nom_complet_mere" placeholder="Nom et prénom(s) de la mère du défunt">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonInscritptionRegistre.nom_complet_mere" id="nom_complet_mere" name="nom_complet_mere" placeholder="Prénom(s) et nom de la mère du défunt">
                                 </div>
                             </div>
                         </div>

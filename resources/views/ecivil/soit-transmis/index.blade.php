@@ -71,7 +71,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="soitTransmis.concerne" id="concerne" name="concerne" placeholder="Nom et prénom(s) du concerné(e)" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="soitTransmis.concerne" id="concerne" name="concerne" placeholder="Prénom(s) et nom du concerné(e)" required>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-map-marker"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="soitTransmis.conjoint" id="conjoint" name="conjoint" placeholder="Nom et prénom(s) du conjoint(e)">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="soitTransmis.conjoint" id="conjoint" name="conjoint" placeholder="Prénom(s) et nom du conjoint(e)">
                                 </div>
                             </div>
                         </div>

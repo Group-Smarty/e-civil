@@ -69,7 +69,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);"  class="form-control" ng-model="certificatNonNaissance.nom_complet_demandeur" id="nom_complet_demandeur" name="nom_complet_demandeur" placeholder="Nom et prénom(s) demandeur" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);"  class="form-control" ng-model="certificatNonNaissance.nom_complet_demandeur" id="nom_complet_demandeur" name="nom_complet_demandeur" placeholder="Prénom(s) et nom demandeur" required>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonNaissance.nom_complet_enfant" id="nom_complet_enfant" name="nom_complet_enfant" placeholder="Nom et prénom(s) de l'enfant" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonNaissance.nom_complet_enfant" id="nom_complet_enfant" name="nom_complet_enfant" placeholder="Prénom(s) et nom de l'enfant" required>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +140,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonNaissance.nom_complet_pere" id="nom_complet_pere" name="nom_complet_pere" placeholder="Nom et prénom(s) du père">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonNaissance.nom_complet_pere" id="nom_complet_pere" name="nom_complet_pere" placeholder="Prénom(s) et nom du père">
                                 </div>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonNaissance.nom_complet_mere" id="nom_complet_mere" name="nom_complet_mere" placeholder="Nom et prénom(s) de la mère">
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatNonNaissance.nom_complet_mere" id="nom_complet_mere" name="nom_complet_mere" placeholder="Prénom(s) et nom de la mère">
                                 </div>
                             </div>
                         </div>

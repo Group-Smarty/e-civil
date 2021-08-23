@@ -132,17 +132,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Nom *</label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-user"></i>
-                                                </div>
-                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="naissance.nom_enfant" id="nom_enfant" name="nom_enfant" placeholder="Nom de la personne déclarée" required>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Pr&eacute;nom(s) *</label>
@@ -151,6 +140,17 @@
                                                     <i class="fa fa-user"></i>
                                                 </div>
                                                 <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="naissance.prenom_enfant" id="prenom_enfant" name="prenom_enfant" placeholder="Prénom(s) de la personne déclarée" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Nom *</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-user"></i>
+                                                </div>
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="naissance.nom_enfant" id="nom_enfant" name="nom_enfant" placeholder="Nom de la personne déclarée" required>
                                             </div>
                                         </div>
                                     </div>

@@ -77,7 +77,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatRechercheInfructueuse.nom_complet_concerne" id="nom_complet_concerne" name="nom_complet_concerne" placeholder="Nom et prénom du concerné(e)" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatRechercheInfructueuse.nom_complet_concerne" id="nom_complet_concerne" name="nom_complet_concerne" placeholder="Prénom(s) et nom du concerné(e)" required>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatRechercheInfructueuse.nom_complet_demandeur" id="nom_complet_demandeur" name="nom_complet_demandeur" placeholder="Nom et prénom du demandeur" required>
+                                    <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="certificatRechercheInfructueuse.nom_complet_demandeur" id="nom_complet_demandeur" name="nom_complet_demandeur" placeholder="Prénom(s) et nom du demandeur" required>
                                 </div>
                             </div>
                         </div>

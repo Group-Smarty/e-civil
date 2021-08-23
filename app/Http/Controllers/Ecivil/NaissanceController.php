@@ -684,7 +684,7 @@ class NaissanceController extends Controller
                      <hr width='90%'/></p>
                     <p style='line-height:1.5; text-align:left; margin-left: 18px;'>
                     <b>NAISSANCE DE :</b> <br/>
-                    ".$naissance->nom_enfant." <br/>".$naissance->prenom_enfant."</p>";
+                    ".$naissance->prenom_enfant." <br/>".$naissance->nom_enfant."</p>";
                     if($naissance->numero_jugement_supletif!=null){
                         $sigelJs = "/Jgmt S";
                         $nmJS = $naissance->nom_enfant;
@@ -714,7 +714,7 @@ class NaissanceController extends Controller
                     $content.="</div>
                     <div style='line-height:2;'>
                     Le <b>".$jour." ".$month[$mont]." ".NumberToLetter($an)."</b>".$heure_de_naissace."<br/>
-                    est ".$ne." à <b>".$naissance->lieu_naissance_enfant."<br/>".$nmJS." ".$naissance->prenom_enfant."</b></div><br/>
+                    est ".$ne." à <b>".$naissance->lieu_naissance_enfant."<br/>".$naissance->prenom_enfant." ".$nmJS."</b></div><br/>
                     <div style='line-height:1.5;'>".$sexe." de <b>".$pere."</b><br/>Profession <b>".$naissance->libelle_fonction_pere."</b><br/> domicilié à <b>".$naissance->adresse_pere."</b><br/>Nationalité  <b>".$naissance->libelle_nation_pere."</b></div><br/><div style='line-height:1.5;'>et de <b>".$mere."</b><br/>Profession <b>".$naissance->libelle_fonction_mere."</b><br/> domiciliée à <b>".$naissance->adresse_mere."</b><br/>Nationalité  <b>".$naissance->libelle_nation_mere."</b>
                     </div></div><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                 <div class='container'><br/>";
@@ -1051,7 +1051,7 @@ class NaissanceController extends Controller
                     1. Le <b>".$jour." ".$month[$mont]." ".NumberToLetter($an)."</b><br/>
                     2. à ".$heure_de_naissace."<br/>
                     3. est né(e) à <b>".$naissance->lieu_naissance_enfant."</b><br/>
-                    4. l'enfant <b>".$nom." ".$naissance->prenom_enfant."</b><br/>
+                    4. l'enfant <b> ".$naissance->prenom_enfant." ".$nom."</b><br/>
                     5. de sexe <b>".$naissance->sexe."</b><br/>
                     6. Ayant pour Père <b>".$pere."</b><br/>
                     7. né le <b>".$dateNaissancePere."</b><br/>   
