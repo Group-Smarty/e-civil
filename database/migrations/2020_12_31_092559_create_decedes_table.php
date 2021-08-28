@@ -50,6 +50,9 @@ class CreateDecedesTable extends Migration
             $table->integer('montant_declaration')->default(0);
             
             //Autres
+            $table->string('numero_jugement_supletif')->nullable();
+            $table->string('tribunale')->nullable();
+            
             $table->string('langue_reception')->nullable();
             $table->string('traducteur')->nullable();
             $table->string('dressant')->nullable();

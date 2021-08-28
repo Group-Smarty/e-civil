@@ -261,6 +261,8 @@ class DecedeController extends Controller
                 $decede->langue_reception = isset($data['langue_reception']) && !empty($data['langue_reception']) ? $data['langue_reception'] : null;
                 $decede->traducteur = isset($data['traducteur']) && !empty($data['traducteur']) ? $data['traducteur'] : null;
                 $decede->dressant = isset($data['dressant']) && !empty($data['dressant']) ? $data['dressant'] : null;
+                $decede->numero_jugement_supletif = isset($data['numero_jugement_supletif']) && !empty($data['numero_jugement_supletif']) ? $data['numero_jugement_supletif'] : null;
+                $decede->tribunale = isset($data['tribunale']) && !empty($data['tribunale']) ? $data['tribunale'] : null;
                 
                 //Ajout du scanne du PV s'il y a en 
                 if(isset($data['scanne_pv']) && !empty($data['scanne_pv'])){
@@ -368,6 +370,8 @@ class DecedeController extends Controller
                 $decede->langue_reception = isset($data['langue_reception']) && !empty($data['langue_reception']) ? $data['langue_reception'] : null;
                 $decede->traducteur = isset($data['traducteur']) && !empty($data['traducteur']) ? $data['traducteur'] : null;
                 $decede->dressant = isset($data['dressant']) && !empty($data['dressant']) ? $data['dressant'] : null;
+                $decede->numero_jugement_supletif = isset($data['numero_jugement_supletif']) && !empty($data['numero_jugement_supletif']) ? $data['numero_jugement_supletif'] : null;
+                $decede->tribunale = isset($data['tribunale']) && !empty($data['tribunale']) ? $data['tribunale'] : null;
                 
                 //Ajout du scanne du PV s'il y a en 
                 if(isset($data['scanne_pv']) && !empty($data['scanne_pv'])){
@@ -543,7 +547,7 @@ class DecedeController extends Controller
                                             float: right;
                                             position: absolute;
                                             top: 0;
-                                            padding: 10px 0;
+                                            padding: 20px 0;
                                         }
                                         .fixed-footer{
                                             position: fixed; 
@@ -577,15 +581,17 @@ class DecedeController extends Controller
         $content .="</p>
                     <br/>
                    <p style='font-size:20;'><b> ETAT - CIVIL</b><p>
-                  <br/>
+                   <br/>
                     <p style='line-height:1.5; align:left;'>
                     <hr width='90%'/>
-                    <b>N° ".$deces->numero_acte_deces." DU ".date("d-m-Y", strtotime($deces->date_dresser))."</b> du registre
-                     <hr width='90%'/></p>
+                    <b>N° ".$deces->numero_acte_deces." DU ".date("d-m-Y", strtotime($deces->date_dresser))."</b> du registre<br/><br/>
+                    <hr width='90%'/></p>
                     <p style='line-height:1.5; text-align:left;'>
                     <b>&nbsp;&nbsp;&nbsp;&nbsp;DECES DE :</b> <br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;".$deces->nom_complet_decede." <br/></p>";
-                  
+                   if($deces->numero_jugement_supletif!=null){
+                        $content.="JS N° : <b>".$deces->numero_jugement_supletif." ".$deces->tribunale."</b>";
+                    }
             $content.="</div>
                 <div class='fixed-header-right'>
                         <span style='opacity:0.35;font-style: italic;'>".$nom_initial."</span> 
@@ -860,8 +866,11 @@ class DecedeController extends Controller
                     </div>";
                 $out_put.="<div class='line-horizontal'></div>";
                 $out_put.="<div class='fixed-content-left'>
-                        <b>Act N° ".$decede->numero_acte_deces." du ".date('d', strtotime($decede->date_dresser))." ".$month[date('m', strtotime($decede->date_dresser))]." ".date('Y', strtotime($decede->date_dresser))."</b><br/>
-                        Décès de :<br/>
+                        <b>Act N° ".$decede->numero_acte_deces." du ".date('d', strtotime($decede->date_dresser))." ".$month[date('m', strtotime($decede->date_dresser))]." ".date('Y', strtotime($decede->date_dresser))."</b><br/>";
+                    if($decede->numero_jugement_supletif!=null){
+                        $out_put.="JS Suplétif : <b>".$decede->numero_jugement_supletif." ".$decede->tribunale."</b><br/>";
+                    }
+              $out_put.="Décès de :<br/>
                         <b>".$decede->nom_complet_decede."</b></div>";
         $out_put.="<div class='line-vertical'></div>";
         $out_put.="<div class='fixed-content-right'>

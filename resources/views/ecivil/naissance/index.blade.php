@@ -637,6 +637,31 @@
                                     </div> 
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            <label>Divorc&eacute; &agrave; </label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-map-marker"></i>
+                                                </div>
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="naissance.lieu_divorce" id="lieu_divorce" name="lieu_divorce" placeholder="Lieu du divorce">
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>N° du divorce </label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-edit"></i>
+                                                </div>
+                                                <input type="text" class="form-control" ng-model="naissance.numero_divorce" id="numero_divorce" name="numero_divorce" placeholder="N° du divorce">
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
                                             <label>Date du d&eacute;c&egrave;s </label>
                                             <div class="input-group">
                                                 <div class="input-group-addon">

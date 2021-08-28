@@ -78,7 +78,10 @@ class CreateNaissancesTable extends Migration
             $table->string('langue_reception')->nullable();
             $table->string('traducteur')->nullable();
             $table->date('date_requisition')->nullable();
-            
+        
+            $table->string('lieu_divorce')->nullable();
+            $table->string('numero_divorce')->nullable();
+
             //En attendant 
             $table->text('mention_1')->nullable();
             $table->text('mention_2')->nullable();

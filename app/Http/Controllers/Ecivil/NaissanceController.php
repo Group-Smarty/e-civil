@@ -319,6 +319,8 @@ class NaissanceController extends Controller
                 $naissance->langue_reception = isset($data['langue_reception']) && !empty($data['langue_reception']) ? $data['langue_reception']:null;
                 $naissance->traducteur = isset($data['traducteur']) && !empty($data['traducteur']) ? $data['traducteur']:null;
                 $naissance->date_requisition = isset($data['date_requisition']) && !empty($data['date_requisition']) ? Carbon::createFromFormat('d-m-Y', $data['date_requisition']):null;
+                $naissance->lieu_divorce = isset($data['lieu_divorce']) && !empty($data['lieu_divorce']) ? $data['lieu_divorce']:null;
+                $naissance->numero_divorce = isset($data['numero_divorce']) && !empty($data['numero_divorce']) ? $data['numero_divorce']:null;
 
                 //En attendant 
                 $naissance->mention_1 = isset($data['mention_1']) && !empty($data['mention_1']) ? $data['mention_1']:null;
@@ -470,6 +472,8 @@ class NaissanceController extends Controller
                 $naissance->langue_reception = isset($data['langue_reception']) && !empty($data['langue_reception']) ? $data['langue_reception']:null;
                 $naissance->traducteur = isset($data['traducteur']) && !empty($data['traducteur']) ? $data['traducteur']:null;
                 $naissance->date_requisition = isset($data['date_requisition']) && !empty($data['date_requisition']) ? Carbon::createFromFormat('d-m-Y', $data['date_requisition']):null;
+                $naissance->lieu_divorce = isset($data['lieu_divorce']) && !empty($data['lieu_divorce']) ? $data['lieu_divorce']:null;
+                $naissance->numero_divorce = isset($data['numero_divorce']) && !empty($data['numero_divorce']) ? $data['numero_divorce']:null;
 
                 //En attendant 
                 $naissance->mention_1 = isset($data['mention_1']) && !empty($data['mention_1']) ? $data['mention_1']:null;
@@ -605,11 +609,13 @@ class NaissanceController extends Controller
         !empty($naissance->nom_complet_pere)? $pere = $naissance->nom_complet_pere : $pere='';
         !empty($naissance->nom_complet_mere)? $mere = $naissance->nom_complet_mere : $mere='';
         $naissance->mention_date_deces!=null ? $neantDateDeces = date("d-m-Y", strtotime($naissance->mention_date_deces)) : $neantDateDeces ='…………………Néant………………';
-        $naissance->mention_date_divorce!=null ? $neantDateDivorce = date("d-m-Y", strtotime($naissance->mention_date_divorce)) : $neantDateDivorce ='………………………Néant………………………………';
+        $naissance->mention_date_divorce!=null ? $neantDateDivorce = date("d-m-Y", strtotime($naissance->mention_date_divorce)) : $neantDateDivorce ='…………Néant……………';
         $naissance->mention_date_mariage!=null ? $neantDateMariage = date("d-m-Y", strtotime($naissance->mention_date_mariage)) : $neantDateMariage ='……………………………Néant………………………';
         $naissance->mention_lieu_mariage!=null ? $neantLieuMariage = $naissance->mention_lieu_mariage : $neantLieuMariage ='……………………Néant……………...';
         $naissance->mention_lieu_deces!=null ? $neantLieuDeces = $naissance->mention_lieu_deces : $neantLieuDeces ='…………………Néant……………………………………';
         $naissance->mention_conjoint!=null ? $neantConjoint = $naissance->mention_conjoint : $neantConjoint ='………………………………………Néant…………………………………………………………………';
+        $naissance->lieu_divorce!=null ? $neantLieuDivorce = $naissance->lieu_divorce : $neantLieuDivorce ='………………………………………Néant…………………………………………………………………';
+        $naissance->numero_divorce!=null ? $neantNumeroDivorce = $naissance->numero_divorce : $neantNumeroDivorce ='…………Néant…………';
         $search  = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
         $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
         $commune = str_replace($search, $replace, $this->infosConfig()->commune);
@@ -726,7 +732,7 @@ class NaissanceController extends Controller
                     </div>
                     <p>Marié(e) le <b>".$neantDateMariage."</b> à <b>".$neantLieuMariage."</b></p>
                     <p>Avec <b>".$neantConjoint."<b></p>
-                    <p>Mariage dissous par décision de divorce en date du <b>".$neantDateDivorce."</b></p>
+                    <p>Mariage dissous par décision de divorce N° <b>".$neantNumeroDivorce." Le ".$neantDateDivorce."</b> à <b>".$neantLieuDivorce."</b></p>
                     <p>Décédé le <b>".$neantDateDeces."</b> à <b>".$neantLieuDeces."</b></p>
                     <p><i>Certifié le présent extrait conforme aux indications portées au registre.</i></p>
                     <p style='float:right;'><i>Délivré à <b>".$this->infosConfig()->commune."</b>, le <b>".date("d")."-".$month[date("m")]."-".date("Y")."</b></i><br/>L'Officier de l’Etat Civil<br/>
@@ -1023,6 +1029,12 @@ class NaissanceController extends Controller
                                 $heure_de_naissace = "<b>".$heureN." heure(s) ".$minuteN." minute(s)</b>";
                             }else{
                                 $heure_de_naissace = "<b>....................................................................................................................................</b>";
+                            }
+                            if($naissance->numero_divorce!=null){
+                                $out_put.="<b><u>Divore N° </u></b><br/>".$naissance->numero_divorce." DU ".date('d-m-Y', strtotime($naissance->mention_date_divorce))." à ".$naissance->lieu_divorce."<br/>";    
+                            }
+                            if($naissance->mention_1!=null){
+                                $out_put.="<b><u>Mention</u></b><br/>".$naissance->mention_1."<br/>";    
                             }
                             if($naissance->mention_1!=null){
                                 $out_put.="<b><u>Mention</u></b><br/>".$naissance->mention_1."<br/>";    

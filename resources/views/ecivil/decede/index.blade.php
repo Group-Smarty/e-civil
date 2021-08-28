@@ -456,6 +456,30 @@
                                     </div> 
                                 </div>
                                 <div class="row">
+                                     <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label>Tribunal </label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-institution"></i>
+                                                </div>
+                                                <input type="text" onkeyup="this.value = this.value.charAt(0).toUpperCase() + this.value.substr(1);" class="form-control" ng-model="naissance.tribunale" id="tribunale" name="tribunale" placeholder="Par la section de tribunal de.............">
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>N° du jugement suppl&eacute;tif </label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-edit"></i>
+                                                </div>
+                                                <input type="text" class="form-control" ng-model="naissance.numero_jugement_supletif" id="numero_jugement_supletif" name="numero_jugement_supletif" placeholder="N° du jugement supplétif">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Dress&eacute; par </label>
