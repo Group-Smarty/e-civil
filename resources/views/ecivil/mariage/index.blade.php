@@ -14,7 +14,7 @@
 <link href="{{asset('assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet">
 <div class="col-md-4">
     <div class="form-group">
-       <input type="text" class="form-control" id="searchByName" placeholder="Rechercher par nom de l'epoux ou de l'epouse">
+       <input type="text" class="form-control" id="searchByName" placeholder="Recher. par nom de l'epoux ou de l'epouse">
     </div>
 </div>
 <div class="col-md-3">
